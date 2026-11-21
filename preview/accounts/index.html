@@ -4,7 +4,8 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="capsule-cloud-url" content="https://jfzmvnzrgtwdoilzcgup.supabase.co">
 <meta name="capsule-cloud-key" content="sb_publishable_-oUWyd9j5L0_hWPf_lkDvQ_orLR2aBR">
-<meta name="theme-color" content="#005c9f"><title>图一乐 · 1.1.1</title>
+<meta name="capsule-cloud-redirect" content="https://sheinhsin.github.io/Just-for-Giggle-CampusVersion/preview/accounts/">
+<meta name="theme-color" content="#005c9f"><title>Just for Giggle</title>
 <style>
 :root{--ink:#232547;--teal:#303365;--edge:#d6d5cd;--paper:#f7f6ef;--orange:#d95132;--mono:var(--sans);--sans:"Google Sans","Noto Sans SC Local","Noto Sans SC","PingFang SC","Microsoft YaHei UI",sans-serif;font-family:var(--sans);background:var(--paper);color:var(--ink)}
 *{box-sizing:border-box}
@@ -756,6 +757,40 @@ body > header :focus-visible,footer :focus-visible,.stage-foot :focus-visible,#i
     to{transform:translate3d(8%,-4%,0) scale(1.12);opacity:1}
   }
 }
+.footer-control{
+  display:inline-flex;align-items:center;min-height:36px;padding:0;border:0;
+  background:transparent;color:inherit;font:inherit;text-decoration:underline;text-underline-offset:3px;
+}
+.footer-contact{min-width:0;overflow-wrap:anywhere}
+.footer-project{margin-inline-start:auto;text-align:end}
+@media(min-width:861px){
+  .bar,body > footer{
+    width:100%;padding-inline:max(12px,env(safe-area-inset-left)) max(12px,env(safe-area-inset-right));
+  }
+}
+.legal-sheet{
+  width:min(35rem,calc(100% - 24px));max-height:calc(100dvh - 24px);
+  padding:clamp(.875rem,3vw,1.75rem);border:1px solid var(--edge);
+  border-radius:14px;background:var(--paper);color:var(--ink);overscroll-behavior:contain;
+  font-size:var(--ui-control);line-height:1.6;overflow-wrap:anywhere;
+}
+.legal-sheet::backdrop{background:#00294285}
+.legal-sheet h2{margin-bottom:var(--s2)}
+.legal-sheet h2:focus{outline:none}
+.legal-sheet p{margin:0 0 var(--s3);color:var(--muted)}
+.legal-sheet h3{margin:var(--s3) 0 var(--s1);font-size:1em}
+.legal-sheet details{margin-block:var(--s3);border-top:1px solid var(--edge)}
+.legal-sheet summary{cursor:pointer}
+.legal-sheet a{color:#004d85;text-underline-offset:3px}
+.legal-actions{display:flex;flex-wrap:wrap;gap:var(--s2);margin-top:var(--s4)}
+.legal-actions button{
+  flex:1 1 11rem;width:auto;min-width:0;justify-content:center;text-align:center;
+  white-space:normal;overflow-wrap:anywhere;
+}
+.account-agreement{display:flex;flex-wrap:wrap;align-items:center;column-gap:.35em;margin:0 0 var(--s3)}
+.account-agreement label{display:inline-flex;align-items:center;gap:var(--s2);min-height:36px}
+.account-agreement input{width:1rem;height:1rem;accent-color:var(--teal);flex:none}
+.account-agreement button{min-height:36px;text-decoration:underline;text-underline-offset:3px}
 </style>
 
 
@@ -893,7 +928,46 @@ body > header :focus-visible,footer :focus-visible,.stage-foot :focus-visible,#i
 <p id="notice" role="status"></p>
 </section></div>
 </main>
-<footer><div class="footer-version"><span>图一乐 · 1.1.1</span><a href="https://sheinhsin.github.io/Just-for-Giggle-CampusVersion/versions/v1.0.0/">1.0 存档</a><button id="intro-replay" type="button"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 5.5a5.5 5.5 0 1 1-.5 4M3 2v3.5h3.5"/></svg>重播开场</button></div><span>广财 · 1024 创新日</span></footer>
+<footer>
+  <div class="footer-version">
+    <span>图一乐 · 1.2</span>
+    <button id="intro-replay" type="button"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 5.5a5.5 5.5 0 1 1-.5 4M3 2v3.5h3.5"/></svg>重播开场</button>
+    <button type="button" class="footer-control" data-open-terms>用户协议</button>
+    <button type="button" class="footer-control" id="open-cookie-settings">Cookie 设置</button>
+  </div>
+  <span class="footer-contact">联系方式：<a href="mailto:xinshen181@student.gdufe.edu.cn">xinshen181@student.gdufe.edu.cn</a></span>
+  <span class="footer-project">1024创新日项目</span>
+</footer>
+<dialog id="cookie-settings" class="legal-sheet" aria-labelledby="cookie-heading" aria-describedby="cookie-intro">
+  <h2 id="cookie-heading" tabindex="-1" autofocus>Cookie 与浏览器存储</h2>
+  <p id="cookie-intro">图一乐使用浏览器存储来保留登录状态和个人记录。你可以选择是否在这台设备上缓存学习模型，让下次生成时少一次下载。</p>
+  <p id="cookie-current" hidden></p>
+  <details>
+    <summary>查看存储用途</summary>
+    <h3>必要存储</h3>
+    <p>我们用本地存储和会话存储记住你的隐私设置、游客记录和当前会话。登录时，浏览器也会保存登录令牌和同步所需的本地副本。清除站点数据可能让你退出登录，并移除尚未同步的记录。</p>
+    <h3>功能性存储</h3>
+    <p>允许后，下载的学习模型可以保存在浏览器中，约占 429 MB。你仍可在每次使用时下载模型，或手动选择已有的模型文件。你可以随时通过页脚的「Cookie 设置」撤销许可并清除模型缓存。</p>
+    <h3>统计与广告</h3>
+    <p>图一乐目前没有接入网站分析或广告追踪工具。</p>
+  </details>
+  <div class="legal-actions">
+    <button type="button" class="secondary" data-cookie-choice="necessary">仅允许必要存储</button>
+    <button type="button" class="primary" data-cookie-choice="functional">允许功能性存储</button>
+  </div>
+</dialog>
+<dialog id="user-terms" class="legal-sheet" aria-labelledby="terms-heading">
+  <h2 id="terms-heading" tabindex="-1" autofocus>图一乐用户协议</h2>
+  <h3>账户与使用</h3>
+  <p>图一乐是 1024 创新日的校园项目，提供趣事卡片、餐食推荐和学习计划。请使用你有权使用的邮箱注册，妥善保管密码，并尊重其他用户的账号和隐私。</p>
+  <h3>记录与云端同步</h3>
+  <p>我们通过 Supabase 验证邮箱、处理登录和找回密码，并同步账户下的卡片记录、菜单与学习计划等数据。生成学习步骤在设备上进行。登录后，保存的学习任务和步骤会随记录同步，请避免在输入框填写密码或他人的个人信息。</p>
+  <h3>游客与榜单</h3>
+  <p>你可以以游客身份使用主要功能，记录保存在当前浏览器。登录后，你可以在账户设置中自愿公开用户名和完成数量，并随时退出榜单。</p>
+  <h3>联系我们</h3>
+  <p>如需查询、更正或删除账户数据，或反馈使用问题，请联系 <a href="mailto:xinshen181@student.gdufe.edu.cn">xinshen181@student.gdufe.edu.cn</a>。</p>
+  <form method="dialog" class="legal-actions"><button class="primary">关闭协议</button></form>
+</dialog>
 <dialog id="meal-dialog" aria-labelledby="meal-name" aria-describedby="meal-summary">
   <form method="dialog"><button type="submit" class="close" aria-label="关闭餐食推荐">×</button></form>
   <p class="meal-label">这顿推荐</p>
@@ -939,6 +1013,10 @@ body > header :focus-visible,footer :focus-visible,.stage-foot :focus-visible,#i
       <label class="field">用户名<input id="account-username" autocomplete="username" maxlength="24" required placeholder="3–24 位字母、数字或下划线"></label>
       <label class="field" hidden>验证邮箱<input type="email" id="account-email" autocomplete="email" maxlength="254" required></label>
       <label class="field">密码<input id="account-password" type="password" autocomplete="current-password" maxlength="128" required></label>
+      <div class="account-agreement" id="account-agreement">
+        <label><input id="account-agree" type="checkbox" required aria-describedby="account-terms-link">我已阅读并同意</label>
+        <button type="button" class="link" id="account-terms-link" data-open-terms>《图一乐用户协议》</button>
+      </div>
       <button class="primary" id="account-submit" type="submit">登录</button>
     </form>
     <div class="account-links">
@@ -2357,33 +2435,63 @@ const modelURLs=[
   "https://modelscope.cn/models/Qwen/Qwen2.5-0.5B-Instruct-GGUF/resolve/master/"+modelFile,
   "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/resolve/main/"+modelFile
 ];
-let modelEngine=null, memoryWeights=null, modelDatabase=null;
-async function weightStore(){
-  if(modelDatabase)return modelDatabase;
-  modelDatabase=await new Promise((resolve,reject)=>{
-    const req=indexedDB.open("tuyile-study-model",1);
+const modelDatabaseName="tuyile-study-model";
+const cookieChoiceKey="tuyile-storage-preferences-v1";
+const modelNote=byId("model-note");
+const defaultModelNote=modelNote.textContent;
+const cachedModelNote="本机模型已缓存，可离线生成。";
+let cookieChoice=null;
+try{cookieChoice=localStorage.getItem(cookieChoiceKey);}catch{}
+if(cookieChoice!=="necessary"&&cookieChoice!=="functional")cookieChoice=null;
+let modelEngine=null, memoryWeights=null;
+function weightStore(){
+  return new Promise((resolve,reject)=>{
+    const req=indexedDB.open(modelDatabaseName,1);
     req.onupgradeneeded=()=>req.result.createObjectStore("weights");
-    req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);
+    req.onsuccess=()=>{
+      const db=req.result;
+      db.onversionchange=()=>db.close();
+      resolve(db);
+    };
+    req.onerror=()=>reject(req.error);
   });
-  return modelDatabase;
 }
 async function cachedWeights(){
+  if(cookieChoice!=="functional")return null;
+  let db;
   try {
-    const db=await weightStore();
-    return await new Promise(resolve=>{
+    db=await weightStore();
+    if(cookieChoice!=="functional")return null;
+    const weights=await new Promise(resolve=>{
       const q=db.transaction("weights").objectStore("weights").get(modelFile);
       q.onsuccess=()=>resolve(q.result?.size===WEIGHT_BYTES?q.result:null);q.onerror=()=>resolve(null);
     });
+    return cookieChoice==="functional"?weights:null;
   }catch{return null;}
+  finally{db?.close();}
 }
 async function cacheWeights(blob){
+  if(cookieChoice!=="functional")return;
+  let db;
   try{
     const estimate=await navigator.storage?.estimate();
-    if(estimate?.quota-estimate?.usage<WEIGHT_BYTES*1.2)return;
-    const db=await weightStore();
+    if(cookieChoice!=="functional"||estimate?.quota-estimate?.usage<WEIGHT_BYTES*1.2)return;
+    db=await weightStore();
+    if(cookieChoice!=="functional")return;
     const tx=db.transaction("weights","readwrite");tx.objectStore("weights").put(blob,modelFile);
     await new Promise((resolve,reject)=>{tx.oncomplete=resolve;tx.onerror=tx.onabort=reject;});
+    if(cookieChoice==="functional"&&modelNote.textContent===defaultModelNote)modelNote.textContent=cachedModelNote;
   }catch{/* Private windows and low-storage devices can use the in-memory copy. */}
+  finally{db?.close();}
+}
+async function refreshModelCacheNote(){
+  if(cookieChoice!=="functional"){
+    if(modelNote.textContent===cachedModelNote)modelNote.textContent=defaultModelNote;
+    return;
+  }
+  if(await cachedWeights()&&cookieChoice==="functional"&&modelNote.textContent===defaultModelNote){
+    modelNote.textContent=cachedModelNote;
+  }
 }
 async function downloadWeights(signal,notify){
   let failure;
@@ -2592,7 +2700,7 @@ function setupStudy(){
     if(file.size!==WEIGHT_BYTES||await file.slice(0,4).text()!=="GGUF"){studyMessage("请选择 Qwen2.5-0.5B-Instruct 的 Q4_0 GGUF 文件。");return;}
     memoryWeights=file;byId("model-note").textContent="已选择本机模型，可以直接生成。";studyMessage("");
   };
-  cachedWeights().then(blob=>{if(blob)byId("model-note").textContent="本机模型已缓存，可离线生成。";});
+  void refreshModelCacheNote();
 }
 
 const modes = {
@@ -3073,6 +3181,46 @@ llama.cpp: Copyright (c) 2023-2024 The ggml authors. MIT license as above.
   if(!seen&&!reduce.matches)openIntro();
 })();
 
+const privacyReady=(() => {
+  const settings=byId("cookie-settings"), terms=byId("user-terms");
+  function openSettings(){
+    const current=byId("cookie-current");
+    current.hidden=cookieChoice===null;
+    current.textContent=cookieChoice==="functional"?"当前已允许功能性存储。":"当前仅允许必要存储。";
+    settings.showModal();
+  }
+  byId("open-cookie-settings").onclick=openSettings;
+  for(const button of document.querySelectorAll("[data-open-terms]")){
+    button.onclick=()=>terms.showModal();
+  }
+  for(const button of settings.querySelectorAll("[data-cookie-choice]")){
+    button.onclick=()=>{
+      cookieChoice=button.dataset.cookieChoice;
+      try{localStorage.setItem(cookieChoiceKey,cookieChoice);}catch{}
+      if(cookieChoice==="necessary"){
+        try{indexedDB.deleteDatabase(modelDatabaseName);}catch{}
+      }
+      void refreshModelCacheNote();
+      settings.close();
+    };
+  }
+  window.addEventListener("storage",event=>{
+    if(event.key!==cookieChoiceKey&&event.key!==null)return;
+    cookieChoice=event.newValue==="functional"||event.newValue==="necessary"?event.newValue:null;
+    void refreshModelCacheNote();
+  });
+  return new Promise(resolve=>{
+    const launch=byId("launch");
+    const afterLaunch=()=>{
+      if(cookieChoice){resolve();return;}
+      settings.addEventListener("close",resolve,{once:true});
+      openSettings();
+    };
+    if(launch.open)launch.addEventListener("close",afterLaunch,{once:true});
+    else afterLaunch();
+  });
+})();
+
 (()=>{
   // Distort the rendered letters in place, including newly generated results.
   // Native text nodes stay intact for selection, IME, copying and screen readers.
@@ -3389,7 +3537,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   const copy = data => JSON.parse(JSON.stringify(data));
   const same = (a,b) => JSON.stringify(a)===JSON.stringify(b);
   const notes = {login:"",signup:"邮箱用于验证账户和找回密码。",forgot:"输入注册时使用的邮箱。",recovery:"设置长度至少 10 位的新密码。"};
-  const redirect = location.origin + location.pathname;
+  const redirect = document.querySelector('meta[name="capsule-cloud-redirect"]').content.trim() || location.origin + location.pathname;
   let client, initialization, account, debounce=0, busy=false, view="login", recovery=false;
   let syncingError=false;
 
@@ -3455,6 +3603,9 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     username.disabled=!enabled||!(login||signup);
     email.disabled=!enabled||!(signup||forgot);
     pass.disabled=!enabled||forgot;
+    byId("account-agreement").hidden=!(login||signup);
+    byId("account-agree").disabled=!enabled||!(login||signup);
+    byId("account-agree").checked=false;
     byId("account-submit").disabled=!enabled;
     pass.autocomplete=signup||reset?"new-password":"current-password";
     pass.minLength=signup||reset?10:1;
@@ -3620,6 +3771,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     event.preventDefault();
     if(busy||!enabled)return;
     const operation=view;
+    const agreement=byId("account-agree");
+    if(!agreement.disabled&&!agreement.reportValidity())return;
     const username=byId("account-username").value.normalize("NFKC").trim().toLowerCase();
     const email=byId("account-email").value.trim();
     const pass=byId("account-password");
@@ -3738,8 +3891,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     }catch {}
     if(!document.querySelector("dialog[open]"))showDialog();
   }
-  if(byId("launch").open)byId("launch").addEventListener("close",()=>void start(),{once:true});
-  else void start();
+  void privacyReady.then(start);
 })();
 
 
