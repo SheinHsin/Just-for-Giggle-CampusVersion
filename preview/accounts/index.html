@@ -791,6 +791,24 @@ body > header :focus-visible,footer :focus-visible,.stage-foot :focus-visible,#i
 .account-agreement label{display:inline-flex;align-items:center;gap:var(--s2);min-height:36px}
 .account-agreement input{width:1rem;height:1rem;accent-color:var(--teal);flex:none}
 .account-agreement button{min-height:36px;text-decoration:underline;text-underline-offset:3px}
+.account-tools{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:inherit}
+.language-select{
+  min-height:44px;max-width:100%;padding:var(--s1) var(--s2);border:1px solid #b3d5e9;
+  border-radius:7px;background:var(--skydiver);color:white;font:inherit;font-size:var(--ui-small);cursor:pointer;
+}
+.dialog-language{float:right;margin:0 0 var(--s2) var(--s3);background:var(--paper);color:var(--ink);border-color:var(--edge)}
+#account .dialog-language{margin-inline-end:var(--s2)}
+html[lang="en"] .ticket-title{overflow-wrap:anywhere}
+html[lang="en"] .mode-switch button{padding-inline:var(--s2)}
+@media(max-width:540px){
+  .bar{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0 var(--s2)}
+  .bar .brand{grid-column:1;grid-row:1}
+  .bar .account-actions{display:contents}
+  .header-language{grid-column:2;grid-row:1;justify-self:end}
+  .account-tools{grid-column:1/-1;grid-row:2;justify-content:space-between;gap:var(--s1)}
+  .account-tools .pocket{margin-inline-start:0}
+  .bar .mode-switch{grid-column:1/-1;grid-row:3}
+}
 </style>
 
 
@@ -813,7 +831,10 @@ body > header :focus-visible,footer :focus-visible,.stage-foot :focus-visible,#i
 <button type="button" data-mode="fun" aria-pressed="true">找点乐子</button>
 <button type="button" data-mode="food" aria-pressed="false">今天吃啥</button>
 <button type="button" data-mode="study" aria-pressed="false">开始学习</button></nav>
-<div class="account-actions"><button class="account-action" id="open-account" type="button">登录</button><button class="account-action" id="open-awards" type="button">成就</button><button class="pocket" id="open-pocket"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v10l-7 5-7-5zM8 9h8"/></svg>口袋 <b id="count">0</b></button></div></div></header>
+<div class="account-actions">
+  <div class="account-tools"><button class="account-action" id="open-account" type="button">登录</button><button class="account-action" id="open-awards" type="button">成就</button><button class="pocket" id="open-pocket"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v10l-7 5-7-5zM8 9h8"/></svg>口袋 <b id="count">0</b></button></div>
+  <select class="language-select header-language" id="site-language" aria-label="语言" data-language><option value="zh-CN" lang="zh-CN">中文</option><option value="en" lang="en">English</option></select>
+</div></div></header>
 <main><div class="workspace"><div class="mast"><div class="mast-copy"><h1 id="headline">课间转盘</h1>
 <p class="subtitle">抽件趣事，选一顿饭，或把学习往前推一步。</p></div>
 </div>
@@ -880,7 +901,7 @@ body > header :focus-visible,footer :focus-visible,.stage-foot :focus-visible,#i
     <label class="field">主食类型<select id="food-staple"></select></label>
     <label class="field">菜系风味<select id="food-cuisine"></select></label>
     <label class="field">参考价格<select id="food-band"></select><small>含区间上限，如 15 元归入 10–15 元</small></label>
-    <label class="field">在哪里吃<select id="food-source"><option value="不限">都可以</option><option>食堂</option><option>外卖</option></select></label>
+    <label class="field">在哪里吃<select id="food-source"><option value="不限">都可以</option><option value="食堂">食堂</option><option value="外卖">外卖</option></select></label>
   </div>
   <fieldset class="taste-field"><legend>口味标签 <small>可多选，须同时符合</small></legend><div class="taste-options" id="food-tags"></div></fieldset>
   <div class="food-count"><span id="food-count" role="status"></span><button type="button" class="link" id="food-reset">清除筛选</button></div>
@@ -892,7 +913,7 @@ body > header :focus-visible,footer :focus-visible,.stage-foot :focus-visible,#i
   <form id="menu-form">
     <label class="field">菜名或店名<input id="dish-name" maxlength="32" required placeholder="例如：二饭 · 滑蛋饭"></label>
     <div class="pair-fields">
-      <label class="field">来源<select id="dish-source"><option>食堂</option><option>外卖</option></select></label>
+      <label class="field">来源<select id="dish-source"><option value="食堂">食堂</option><option value="外卖">外卖</option></select></label>
       <label class="field">参考价（元）<input id="dish-price" type="number" min="0.01" max="999" step="0.01" inputmode="decimal" required></label>
       <label class="field">主食类型<select id="dish-staple"></select></label>
       <label class="field">菜系风味<select id="dish-cuisine"></select></label>
@@ -939,13 +960,14 @@ body > header :focus-visible,footer :focus-visible,.stage-foot :focus-visible,#i
   <span class="footer-project">1024创新日项目</span>
 </footer>
 <dialog id="cookie-settings" class="legal-sheet" aria-labelledby="cookie-heading" aria-describedby="cookie-intro">
+  <select class="language-select dialog-language" aria-label="语言" data-language><option value="zh-CN" lang="zh-CN">中文</option><option value="en" lang="en">English</option></select>
   <h2 id="cookie-heading" tabindex="-1" autofocus>Cookie 与浏览器存储</h2>
   <p id="cookie-intro">图一乐使用浏览器存储来保留登录状态和个人记录。你可以选择是否在这台设备上缓存学习模型，让下次生成时少一次下载。</p>
   <p id="cookie-current" hidden></p>
   <details>
     <summary>查看存储用途</summary>
     <h3>必要存储</h3>
-    <p>我们用本地存储和会话存储记住你的隐私设置、游客记录和当前会话。登录时，浏览器也会保存登录令牌和同步所需的本地副本。清除站点数据可能让你退出登录，并移除尚未同步的记录。</p>
+    <p>我们用本地存储和会话存储记住你的语言偏好、隐私设置、游客记录和当前会话。登录时，浏览器也会保存登录令牌和同步所需的本地副本。清除站点数据可能让你退出登录，并移除尚未同步的记录。</p>
     <h3>功能性存储</h3>
     <p>允许后，下载的学习模型可以保存在浏览器中，约占 429 MB。你仍可在每次使用时下载模型，或手动选择已有的模型文件。你可以随时通过页脚的「Cookie 设置」撤销许可并清除模型缓存。</p>
     <h3>统计与广告</h3>
@@ -1004,6 +1026,7 @@ body > header :focus-visible,footer :focus-visible,.stage-foot :focus-visible,#i
 <button type="button" data-reason="">直接换一张</button></div></dialog>
 <dialog id="account" aria-labelledby="account-heading">
   <form method="dialog"><button class="close" aria-label="关闭账户窗口">×</button></form>
+  <select class="language-select dialog-language" id="account-language" aria-label="语言" data-language><option value="zh-CN" lang="zh-CN">中文</option><option value="en" lang="en">English</option></select>
   <h2 id="account-heading">登录图一乐</h2>
   <p class="dialog-note" id="account-offline" hidden>连接云端后可注册或登录。游客记录保存在这台设备的浏览器。</p>
   <div id="account-forms" hidden>
@@ -1811,6 +1834,579 @@ const TASKS = [
 
 </script>
 <script>
+const languageKey = "tuyile-language";
+const languageURL = new URL(location.href);
+const queryLanguage = languageURL.searchParams.get("lang");
+let savedLanguage;
+try{savedLanguage=localStorage.getItem(languageKey);}catch{}
+const language = (["zh-CN","en"].includes(queryLanguage)?queryLanguage:savedLanguage)==="en"?"en":"zh-CN";
+const english = language==="en";
+const englishText = {
+  "语言": "Language",
+  "图一乐": "Just for Giggle",
+  "图一乐开场": "Just for Giggle intro",
+  "跳过开场": "Skip intro",
+  "选择栏目": "Choose a section",
+  "找点乐子": "Find Fun",
+  "今天吃啥": "What to Eat",
+  "开始学习": "Study",
+  "登录": "Log in",
+  "成就": "Achievements",
+  "口袋": "Pocket",
+  "课间转盘": "Campus Spinner",
+  "抽件趣事，选一顿饭，或把学习往前推一步。": "Draw a challenge, pick a meal, or take the next step in your studies.",
+  "双层球形卡片转盘": "Two-layer spherical card spinner",
+  "趣事卡池": "Fun deck",
+  "餐食卡池": "Meal deck",
+  "学习路线": "Study plan",
+  "图": "J",
+  "一": "F",
+  "乐": "G",
+  "没有符合条件的卡片": "No matching cards",
+  "向左转一张": "Rotate one card left",
+  "向右转一张": "Rotate one card right",
+  "等待抽取": "Ready to draw",
+  "抽取设置和结果": "Draw settings and results",
+  "清除场景": "Clear context",
+  "抽一件趣事": "Draw a fun challenge",
+  "空闲时间": "Time available",
+  "5 分钟": "5 min",
+  "10 分钟": "10 min",
+  "20 分钟": "20 min",
+  "地点": "Location",
+  "待在原地": "Stay here",
+  "附近走走": "Walk nearby",
+  "和谁一起": "Company",
+  "自己一个": "Solo",
+  "和朋友": "With a friend",
+  "开始抽卡": "Draw a card",
+  "你的任务卡": "Your challenge",
+  "改条件": "Edit filters",
+  "做到这里就算完成": "How to finish",
+  "做完了，收进口袋": "Done — save to Pocket",
+  "换一张": "Try another card",
+  "任务完成": "Challenge complete",
+  "收进口袋啦。": "Saved to Pocket.",
+  "再抽一张": "Draw again",
+  "重新选条件": "Reset filters",
+  "这顿吃什么？": "What sounds good?",
+  "主食类型": "Staple",
+  "菜系风味": "Cuisine",
+  "参考价格": "Price range",
+  "含区间上限，如 15 元归入 10–15 元": "Upper limit included. ¥15 falls in the ¥10–15 range.",
+  "在哪里吃": "Meal source",
+  "都可以": "Any source",
+  "食堂": "Canteen",
+  "外卖": "Delivery",
+  "口味标签": "Flavor tags",
+  "可多选，须同时符合": "Matches all selected tags",
+  "清除筛选": "Clear filters",
+  "帮我挑一餐": "Pick a meal",
+  "我的菜单": "My menu",
+  "示例菜品和参考价供试玩。可以添加常吃的菜，或给旧菜补上分类。": "Sample dishes and prices are for exploring. Add your favorites or categorize dishes you saved earlier.",
+  "菜名或店名": "Dish or restaurant",
+  "例如：二饭 · 滑蛋饭": "e.g. Canteen 2 · Silky egg rice",
+  "来源": "Source",
+  "参考价（元）": "Estimated price (CNY)",
+  "加入我的菜单": "Add to my menu",
+  "取消编辑": "Cancel edit",
+  "查看菜品": "View dishes",
+  "把任务拆成步骤": "Break a task into steps",
+  "这次想完成什么？": "What do you want to get done?",
+  "例如：周五要做三分钟英语演讲，主题是校园节水。我有调查数据，但不知道怎么开头。": "e.g. I have a three-minute talk on saving water on campus on Friday. I have survey results and need an opening.",
+  "目前卡在哪里？": "What's holding you up?",
+  "不知道怎么开头": "I don't know where to start",
+  "任务看起来太大": "The task feels too big",
+  "缺材料或不懂要求": "I'm missing materials or instructions",
+  "被打断，接不上了": "I lost my place",
+  "本机 AI 首次需下载约 429 MB 模型。任务内容在设备上处理。": "On-device AI needs a one-time download of about 429 MB. Your task is processed on your device.",
+  "生成专属步骤": "Generate a plan",
+  "快速拆解 · 无需下载": "Quick plan · no download",
+  "继续已有计划": "Resume plan",
+  "使用已下载的模型": "Use a local model file",
+  "下载对应的模型文件（429 MB）": "Download the model file (429 MB)",
+  "取消生成": "Cancel generation",
+  "当前步骤": "Current step",
+  "留个断点": "Leave a note",
+  "选填，回来时继续": "Optional, for when you return",
+  "下次从哪里接着做？": "Where should you pick up next time?",
+  "完成这步，继续下一步": "Finish step and continue",
+  "调整任务": "Edit task",
+  "图一乐 · 1.2": "Just for Giggle · 1.2",
+  "重播开场": "Replay intro",
+  "用户协议": "Terms of use",
+  "Cookie 设置": "Cookie settings",
+  "联系方式：": "Contact: ",
+  "1024创新日项目": "1024 Innovation Day Project",
+  "Cookie 与浏览器存储": "Cookies and browser storage",
+  "图一乐使用浏览器存储来保留登录状态和个人记录。你可以选择是否在这台设备上缓存学习模型，让下次生成时少一次下载。": "Just for Giggle uses browser storage to keep you signed in and save your activity. You can choose to cache the study model on this device so you only have to download it once.",
+  "查看存储用途": "See how storage is used",
+  "必要存储": "Essential storage",
+  "我们用本地存储和会话存储记住你的语言偏好、隐私设置、游客记录和当前会话。登录时，浏览器也会保存登录令牌和同步所需的本地副本。清除站点数据可能让你退出登录，并移除尚未同步的记录。": "We use local and session storage to remember your language preference, privacy settings, guest activity, and current session. When you sign in, your browser also saves session tokens and a local copy for syncing. Clearing site data may sign you out and remove unsynced activity.",
+  "功能性存储": "Functional storage",
+  "允许后，下载的学习模型可以保存在浏览器中，约占 429 MB。你仍可在每次使用时下载模型，或手动选择已有的模型文件。你可以随时通过页脚的「Cookie 设置」撤销许可并清除模型缓存。": "If you allow it, your browser can cache the study model, which takes about 429 MB. You can also download the model each time or choose an existing model file. Open Cookie settings in the footer any time to withdraw permission and clear the model cache.",
+  "统计与广告": "Analytics and advertising",
+  "图一乐目前没有接入网站分析或广告追踪工具。": "Just for Giggle currently uses no analytics or advertising trackers.",
+  "仅允许必要存储": "Essential storage only",
+  "允许功能性存储": "Allow functional storage",
+  "图一乐用户协议": "Just for Giggle Terms of Use",
+  "账户与使用": "Accounts and use",
+  "图一乐是 1024 创新日的校园项目，提供趣事卡片、餐食推荐和学习计划。请使用你有权使用的邮箱注册，妥善保管密码，并尊重其他用户的账号和隐私。": "Just for Giggle is a campus project for 1024 Innovation Day. It offers challenge cards, meal suggestions, and study plans. Register with an email address you are authorized to use, keep your password secure, and respect other users' accounts and privacy.",
+  "记录与云端同步": "Activity and cloud sync",
+  "我们通过 Supabase 验证邮箱、处理登录和找回密码，并同步账户下的卡片记录、菜单与学习计划等数据。生成学习步骤在设备上进行。登录后，保存的学习任务和步骤会随记录同步，请避免在输入框填写密码或他人的个人信息。": "We use Supabase for email verification, sign-in, password recovery, and syncing account activity such as challenges, menus, and study plans. Study steps are generated on your device. When you sign in, saved tasks and steps sync with your activity. Keep passwords and other people's personal information out of task fields.",
+  "游客与榜单": "Guest use and leaderboard",
+  "你可以以游客身份使用主要功能，记录保存在当前浏览器。登录后，你可以在账户设置中自愿公开用户名和完成数量，并随时退出榜单。": "You can use the main features as a guest and keep your activity in this browser. Once signed in, you can choose to show your username and completion count on the leaderboard, and opt out at any time.",
+  "联系我们": "Contact us",
+  "如需查询、更正或删除账户数据，或反馈使用问题，请联系": "To access, correct, or delete your account data, or to report a problem, email",
+  "。": ".",
+  "关闭协议": "Close terms",
+  "关闭餐食推荐": "Close meal suggestion",
+  "这顿推荐": "Suggested meal",
+  "当前筛选只有这一道菜。": "This is the only dish that matches your filters.",
+  "就吃这道": "Choose this meal",
+  "换一道": "Try another dish",
+  "我的口袋": "My Pocket",
+  "关闭口袋": "Close Pocket",
+  "完成记录": "Activity history",
+  "记录保存在当前浏览器。": "Your activity is saved in this browser.",
+  "换卡原因": "Reason for skipping",
+  "关闭": "Close",
+  "哪里不合适？": "What doesn't fit?",
+  "接下来的抽卡会参考这个场景，可随时清除。": "Your next draw will use this context. You can clear it any time.",
+  "时间不够": "Not enough time",
+  "不方便出门": "Can't go out",
+  "身边没人": "Nobody nearby",
+  "缺工具": "No supplies",
+  "周围要安静": "Need to stay quiet",
+  "太麻烦": "Too much effort",
+  "现在做不了": "Can't do it right now",
+  "直接换一张": "Just draw another",
+  "关闭账户窗口": "Close account",
+  "登录图一乐": "Log in to Just for Giggle",
+  "连接云端后可注册或登录。游客记录保存在这台设备的浏览器。": "Cloud access is required to register or log in. Guest activity is saved in this browser.",
+  "登录会同步卡片记录、菜单和学习计划。榜单默认不公开你的信息。": "Sign in to sync cards, menus, and study plans. Your profile is private on the leaderboard until you opt in.",
+  "用户名": "Username",
+  "3–24 位字母、数字或下划线": "3–24 letters, numbers, or underscores",
+  "验证邮箱": "Email address",
+  "密码": "Password",
+  "我已阅读并同意": "I have read and agree to the",
+  "《图一乐用户协议》": "Terms of Use",
+  "注册账户": "Create an account",
+  "忘记密码": "Forgot password?",
+  "返回登录": "Back to login",
+  "云端已连接": "Connected to the cloud",
+  "在榜单显示用户名和完成数量": "Show my username and completion count on the leaderboard",
+  "立即同步": "Sync now",
+  "导入本机游客记录": "Import guest activity",
+  "退出登录": "Log out",
+  "以游客身份继续": "Continue as guest",
+  "关闭成就窗口": "Close achievements",
+  "我的成就": "My achievements",
+  "专属称号": "Personal titles",
+  "共用徽章": "Badges",
+  "本周榜单": "Weekly leaderboard",
+  "请开启 JavaScript 后抽取任务卡。": "Enable JavaScript to draw a challenge card.",
+  "米饭": "Rice",
+  "粉面": "Noodles",
+  "粥": "Congee",
+  "包点饺馄": "Buns and dumplings",
+  "饼与面包": "Flatbreads and bread",
+  "薯类与杂粮": "Tubers and grains",
+  "无固定主食": "No fixed staple",
+  "待分类": "Uncategorized",
+  "家常": "Homestyle",
+  "粤式": "Cantonese",
+  "潮汕": "Chaoshan",
+  "客家": "Hakka",
+  "川渝": "Sichuan and Chongqing",
+  "湘式": "Hunan",
+  "桂式": "Guangxi",
+  "西北": "Northwestern Chinese",
+  "江南": "Jiangnan",
+  "荆楚": "Hubei",
+  "北方": "Northern Chinese",
+  "日韩": "Japanese and Korean",
+  "西式": "Western",
+  "其他": "Other",
+  "清淡": "Light",
+  "鲜香": "Savory",
+  "酱香": "Saucy",
+  "微辣": "Mildly spicy",
+  "香辣": "Spicy",
+  "麻辣": "Numbing and spicy",
+  "酸香": "Tangy",
+  "酸甜": "Sweet and sour",
+  "浓郁": "Rich",
+  "甜口": "Sweet",
+  "不限价格": "Any price",
+  "符合条件：{count} 道": "{count} matching dishes",
+  "暂无匹配，试试放宽一个条件": "No matches. Try loosening a filter.",
+  "查看这道推荐": "See suggestion",
+  "¥{price} 参考价": "¥{price} estimated",
+  "保存修改": "Save changes",
+  "这个条件下还没有菜。可以放宽预算，或在下面添加一家常吃的店。": "No dishes match. Try a wider budget or add one of your usual places below.",
+  "查看全部菜品（{count}）": "View all dishes ({count})",
+  "移除": "Remove",
+  "移除{name}": "Remove {name}",
+  "（示例）": " (sample)",
+  "编辑": "Edit",
+  "编辑{name}": "Edit {name}",
+  "做完一件趣事、选定一餐或完成学习的第一步，就能在这里找回来。": "Your activity appears here after you finish a challenge, pick a meal, or save a study plan.",
+  "趣事": "Fun",
+  "餐食": "Meal",
+  "学习": "Study",
+  "还想再做": "Do again",
+  "本机换卡原因": "Your skip reasons",
+  "{count} 次": "×{count}",
+  "全部主食": "All staples",
+  "全部风味": "All cuisines",
+  "参考 ¥{price}": "Est. ¥{price}",
+  "这顿选了「{name}」，已记进口袋。": "Saved “{name}” to Pocket.",
+  "已更新「{name}」。": "Updated “{name}”.",
+  "已添加「{name}」。": "Added “{name}”.",
+  "只看 5 分钟内的卡": "Up to 5 minutes",
+  "就在原地": "Stay in place",
+  "一个人也能做": "Solo-friendly",
+  "避开需要工具的卡": "No supplies needed",
+  "避开需要出声的卡": "Quiet challenges",
+  "优先步骤简单": "Prefer simple challenges",
+  "取景": "Frame",
+  "造物": "Make",
+  "故事": "Story",
+  "声景": "Sound",
+  "寻路": "Explore",
+  "解谜": "Puzzle",
+  "家": "Pro",
+  "达人": "Ace",
+  "能手": "Scout",
+  "大师": "Master",
+  "玩家": "Player",
+  "队长": "Captain",
+  "专家": "Expert",
+  "{count}阶": "Tier {count}",
+  "课间新手": "First Break",
+  "课间玩家": "Breaktime Regular",
+  "课间达人": "Campus Ace",
+  "课间大师": "Breaktime Master",
+  "卡池收藏家": "Deck Collector",
+  "{all} 次完成 · {unique} 张不同的卡 · 下个称号还差 {remaining} 次": "{all} completions · {unique} unique cards · {remaining} to your next title",
+  "完成 3 次趣事卡，就能获得第一个专属称号。": "Finish three challenges to earn your first personal title.",
+  "第 {at} 张 · {cards}": "Draw {at} · {cards}",
+  "{done}/{target} 张": "{done}/{target} cards",
+  "搭档有约": "Better Together",
+  "完成 3 张双人趣事卡": "Finish three challenges with a friend",
+  "校园探路员": "Campus Pathfinder",
+  "完成 5 张外出趣事卡": "Finish five outdoor challenges",
+  "三日寻乐": "Three-Day Streak",
+  "连续 3 天完成新卡": "Finish a new card on three consecutive days",
+  "已解锁": "Unlocked",
+  "当前浏览器无法保存，记录仅在本次打开期间有效。": "This browser cannot save your activity. It will last for this visit only.",
+  "{count} 分钟": "{count} min",
+  "当前场景没有其他合适的卡，可清除场景或调整条件。": "No more matches for this context. Clear it or change your filters.",
+  "没有其他合适的卡，可调整筛选条件。": "No more matches. Try changing your filters.",
+  "「{title}」已记入完成记录。": "“{title}” is saved in your activity.",
+  "新称号 · {name}": "New title · {name}",
+  "本机模型已缓存，可离线生成。": "The model is cached and ready to use offline.",
+  "正在下载本机模型 · {percent}%": "Downloading the model · {percent}%",
+  "正在检查本机模型…": "Checking for the model…",
+  "正在启动本机模型…": "Starting the on-device model…",
+  "正在分析任务和卡点…": "Reviewing your task…",
+  "正在写第 {step} / 3 步…": "Writing step {step} of 3…",
+  "核对原要求：{conditions}。": "Check the original requirements: {conditions}.",
+  "本机 AI": "On-device AI",
+  "从上次保存的地方继续。": "Pick up where you left off.",
+  "已有步骤": "Saved steps",
+  "快速拆解": "Quick plan",
+  "小输入和预期输出": "a small test with an expected result",
+  "给{topic}写一个最小输入和预期输出，先手算一遍。": "For {topic}, write the smallest useful test input and work out the expected output by hand.",
+  "只实现能通过这个例子的核心逻辑，记录实际输出。": "Implement just enough of the core logic to pass that test and record the actual output.",
+  "改动一个输入条件，再跑一次，对比两次结果并解释差异。": "Change one input, rerun the test, and explain any difference between the two results.",
+  "一题完整的演算": "one fully worked example",
+  "从{topic}里选一道代表题，分两栏写出已知量与要证或要求的量。": "Pick a representative problem from {topic}. Put the givens in one column and what you need to find or prove in the other.",
+  "挑一个能连接两栏的公式或定义，写出代入后的第一行，再逐行推到结论。": "Choose a formula or definition that connects the two columns, substitute the known values, and work through to the result.",
+  "用一个简单数值或边界情况检验结论，圈出最容易漏掉的条件。": "Check the result with a simple value or edge case and circle the condition you're most likely to miss.",
+  "一段能讲出来的主线": "a clear point you can say aloud",
+  "围绕{topic}写一句听众离开时应该记住的话。": "For {topic}, write one sentence you want your audience to remember.",
+  "选一个支持这句话的例子，按「问题、例子、结论」写出三句讲稿。": "Pick an example that supports your point and draft three lines: the problem, the example, and the takeaway.",
+  "不看稿讲一遍并计时，删掉最偏题的一句。": "Say it without reading, time yourself, and cut the line furthest from your point.",
+  "一次脱稿回忆": "one round of recall without notes",
+  "从{topic}挑出最不熟的三项，分别写下释义或提示词。": "Pick the three least familiar items in {topic} and give each a definition or cue.",
+  "遮住原文，根据提示逐项说出来，把想不起来的标记出来。": "Cover the originals and say each item from its cue, marking the ones you can't recall.",
+  "为标记项各造一个例句，再遮住答案自测一次。": "Write an example sentence for each item you marked, then cover the answers and test yourself again.",
+  "一个可检验的问题": "a question you can check with data",
+  "把{topic}改写成一个可以用数据回答的问题，写清要比较的两项。": "Turn {topic} into one question the data can answer and name the two things you want to compare.",
+  "取一小组已有数据，标出单位和来源，做一张两列对照表。": "Take a small subset of the data, note the units and source, and make a two-column comparison.",
+  "根据表中差异写一句发现，再记下一条目前还不能得出的结论。": "Write one finding from the comparison and one conclusion the data can't yet support.",
+  "一段有依据的初稿": "a first paragraph backed by evidence",
+  "以{topic}为题，写下一句你想主张或回答的话。": "For {topic}, write one sentence that states your claim or answer.",
+  "从手头材料选一处证据，记下出处和它支持这句话的原因。": "Pick one piece of evidence, note its source, and explain how it supports your sentence.",
+  "把主张、证据、解释连成一段，标出下一段要回答的问题。": "Turn the claim, evidence, and explanation into one paragraph and note the question the next paragraph should answer.",
+  "一个可比较的草案": "two drafts you can compare",
+  "为{topic}写一句用途说明，点明谁会看到它和想传达什么。": "Write one sentence explaining who {topic} is for and what it needs to communicate.",
+  "围绕同一重点做两个小样，只改变一种布局或表达方式。": "Make two quick versions of the same idea, changing only one aspect of the layout or presentation.",
+  "按用途比较两版，留下较清楚的一版并标出下一处修改。": "Compare how well each version serves its purpose, keep the clearer one, and mark the next change.",
+  "一个可以检查的小成果": "a small result you can check",
+  "围绕{topic}写出你希望完成的最小成果，再定一个能判断完成的标准。": "For {topic}, name the smallest useful result and write one way to tell when it's done.",
+  "选一个与你的目标最接近的例子，照着独立做出第一版。": "Find an example close to your goal and use it as a reference to make your own first version.",
+  "按刚写的标准检查第一版，把一个具体差距改好，再记下下一步。": "Check your first version against your criterion, fix one specific gap, and note your next step.",
+  "先处理「{part}」，留下一份可核对的初稿或解题记录。": "Start with “{part}” and leave a draft or working notes you can check.",
+  "接着完成「{part}」，用上一步的结果检查两者能否衔接。": "Continue with “{part}” and use the previous result to check how the two steps connect.",
+  "先为{topic}找出作业说明或原材料，记下一个缺口和能回答它的人或资料。": "Find the instructions or source material for {topic}. Note one thing you're missing and where you can get an answer.",
+  "打开{topic}上次的草稿，圈出最后完成的位置，用一句话标注接下来的动作。": "Open your last draft for {topic}, mark where you stopped, and write the next action in one sentence.",
+  "把{topic}缩到这一轮能完成的一小部分，写下本轮范围。": "Narrow {topic} to one piece you can finish now and write down what you'll cover this time.",
+  "这次先把{topic}推进到{result}。": "For {topic}, aim for {result} first.",
+  "先补齐会挡住动手的材料。": "Gather any missing materials before you begin.",
+  "从已有进度接着走。": "Build on the work you've already done.",
+  "已完成": "Done",
+  "接下来": "Up next",
+  "你的学习路线": "Your study plan",
+  "编辑第 {step} 步": "Edit step {step}",
+  "完成计划，收进口袋": "Finish plan and save",
+  "已取消，任务仍在这里。": "Canceled. Your task is still here.",
+  "本机模型暂未能生成完整计划。可以重试、选择已下载的模型，或先用快速拆解。": "The on-device model couldn't finish the plan. Try again, choose a local model file, or use Quick plan.",
+  "断点：{note}": "Resume from: {note}",
+  "「{task}」的学习记录已收进口袋。": "Saved your study plan for “{task}”.",
+  "请选择 Qwen2.5-0.5B-Instruct 的 Q4_0 GGUF 文件。": "Choose the Q4_0 GGUF file for Qwen2.5-0.5B-Instruct.",
+  "已选择本机模型，可以直接生成。": "Local model selected. You can generate a plan now.",
+  "抽取中…": "Drawing…",
+  "当前步骤已就位": "Current step is ready",
+  "已抽中 · 卡片已居中": "Card drawn and centered",
+  "等待学习任务": "Waiting for a task",
+  "请调整筛选条件": "Adjust your filters",
+  "转盘运行中": "Spinner in motion",
+  "已减少动效": "Reduced motion",
+  "暂停动效": "Pause motion",
+  "开启动效": "Resume motion",
+  "{count} 张候选": "{count} available",
+  "输入学习任务，生成你的步骤卡": "Enter a task to generate study cards",
+  "{count} 个步骤": "{count} steps",
+  "当前已允许功能性存储。": "Functional storage is currently allowed.",
+  "当前仅允许必要存储。": "Only essential storage is currently allowed.",
+  "邮箱用于验证账户和找回密码。": "We use your email to verify your account and reset your password.",
+  "输入注册时使用的邮箱。": "Enter the email address you registered with.",
+  "设置长度至少 10 位的新密码。": "Choose a new password with at least 10 characters.",
+  "我的账户": "My account",
+  "账户": "Account",
+  "已登录 · 记录可跨设备同步": "Signed in · Activity syncs across devices",
+  "游客模式 · 记录保存在当前浏览器": "Guest mode · Activity stays in this browser",
+  "发送验证邮件": "Send verification email",
+  "发送找回邮件": "Send reset email",
+  "保存新密码": "Save new password",
+  "登录后可查看本周榜单。": "Sign in to see this week's leaderboard.",
+  "正在同步…": "Syncing…",
+  "云端已同步": "Synced to the cloud",
+  "本机有新改动，正在继续同步": "Syncing newer changes…",
+  "云端暂时不可用，改动已保存在本机。": "Cloud sync is unavailable. Your changes are saved on this device.",
+  "账户服务暂时不可用。": "The account service is temporarily unavailable.",
+  "账户服务尚未配置。": "The account service has not been set up.",
+  "尝试次数过多，请稍后重试。": "Too many attempts. Please try again later.",
+  "登录失败，请核对用户名、密码及邮箱验证状态。": "Login failed. Check your username and password and make sure you've verified your email.",
+  "登录状态无法保存，请重试。": "Your session couldn't be saved. Please try again.",
+  "注册未完成。请核对邮箱，或尝试另一个用户名。": "Registration couldn't be completed. Check your email or try a different username.",
+  "邮件暂时无法发送，请稍后再试。": "We couldn't send the email. Please try again later.",
+  "账户服务暂时不可用，请重试。": "The account service is temporarily unavailable. Please try again.",
+  "用户名需为 3–24 位英文字母、数字或下划线。": "Use 3–24 English letters, numbers, or underscores.",
+  "正在处理…": "Working…",
+  "请查看邮箱并完成验证，然后用用户名登录。": "Check your inbox and verify your email, then log in with your username.",
+  "如果该邮箱已注册，请查看找回邮件。": "If this email is registered, you'll receive a reset email.",
+  "新密码已保存，请重新登录。": "Your new password was saved. Log in again.",
+  "游客记录已合入账户。历史记录只用于个人成就。": "Guest activity was added to your account. Imported history counts toward personal achievements.",
+  "已退出账户。": "You have logged out.",
+  "暂时无法退出账户，请重试。": "Couldn't log out. Please try again.",
+  "已加入本周榜单。": "You've joined this week's leaderboard.",
+  "已退出榜单。": "You've left the leaderboard.",
+  "榜单设置暂时无法保存。": "We couldn't save your leaderboard settings.",
+  "连接云端后可查看本周榜单。": "Connect to the cloud to see this week's leaderboard.",
+  "正在加载榜单…": "Loading leaderboard…",
+  "每周一 00:00（北京时间）重新计分。": "Scores reset every Monday at midnight (Beijing time).",
+  "本周暂无上榜记录。": "No leaderboard entries this week.",
+  "本周 {weekly} 张 · 累计 {total} 张": "{weekly} this week · {total} total",
+  "榜单暂时无法加载。": "The leaderboard is temporarily unavailable.",
+  "云端暂时无法连接，可先用游客模式。": "The cloud is temporarily unavailable. You can continue as a guest.",
+};
+const englishCards = [
+  ["A Color for Today", "Find three things near your seat with similar colors and frame them in one photo.", "Name the palette, such as “Wednesday Mint.”"],
+  ["A Backpack Museum", "Pick the least remarkable thing in your bag. Imagine it is an artifact just dug up.", "Write one absurd but believable museum label."],
+  ["A Film Outside the Window", "Use the window frame or your hands to frame a view you usually ignore.", "Give it a film title and write the opening voiceover."],
+  ["Draw a Bike with Eyes Closed", "Grab a pen or open a drawing app. Close your eyes and start with the front wheel.", "Open your eyes, add only three strokes, and give your bike a model name."],
+  ["Three Silent Panels", "Cast a pen cap, a tissue, and a cup in an unexpected encounter.", "Take three photos that tell the beginning, twist, and ending."],
+  ["Turn Your Timetable into a Menu", "Pick three classes or ideas from today and invent a dish named after each one.", "Write a campus menu with a starter, main course, and dessert."],
+  ["Bring Back a Letter", "Go to the nearest hallway or doorway and find a letter or character you like on a sign.", "Take a close-up and imagine a sound for it."],
+  ["Follow a Shadow", "Step outside and look for an interesting shadow. A lamp works on a cloudy day.", "Look from two angles and pick the one that looks most like an animal."],
+  ["Collect Campus Circles", "Head downstairs or to a nearby walkway and spot circles hidden in everyday objects.", "Find three circles with different uses and turn them into an imaginary robot."],
+  ["Be a Foley Artist", "Walk a short way, stop, and listen to your footsteps and the sounds around you.", "Write words that imitate three sounds and join them into one line."],
+  ["Campus Type Detective", "Leave half your time for the return trip. Look at lettering on buildings, posters, and shops.", "Find the two styles that differ most. Pick one for a thriller title."],
+  ["A Postcard from a Familiar Path", "Stroll down a route you know well and turn back halfway through your time.", "Write a one-line postcard to your future self about a detail you only noticed today."],
+  ["Same Word, Two Drawings", "Agree on a word such as “late.” Each of you has one minute to draw it on your phone.", "Reveal your drawings at the same time and find one similarity."],
+  ["Swap a Song Intro", "Each of you picks a song you have been playing lately. Keep the volume low enough for just the two of you.", "Listen to a little of each intro and guess why the other person likes it."],
+  ["Give a Cup a Voice", "Choose two things on the table and each play one of them.", "Take turns delivering three lines as they argue over the last tissue."],
+  ["From True Story to Movie", "Each tell the other a small true story from this week and swap stories to adapt.", "Give each other's story a film title and read out a tagline."],
+  ["Open a Shop on Paper", "Pick an odd service together, such as naming songs for people.", "Write a shop name, price, and slogan, then act out one sale."],
+  ["A Monster's ID Photo", "Fold a sheet in half. One person draws the top half of a monster, leaving two lines along the fold.", "The other draws the bottom half. Unfold it and give your monster a name and a major."],
+  ["Find a Color Twin", "Go to the nearest doorway. Each find something close to the color of the other's clothes.", "Show each other what you found and decide which color is closer."],
+  ["Spot My Tiny Detail", "Go to the nearest hallway. Each pick a detail few people notice.", "Give one clue each. Can your partner find your detail in 30 seconds?"],
+  ["Campus Framing Challenge", "Stand in the same spot and each take a photo using only buildings or plants.", "Swap photos and try standing exactly where your partner framed theirs."],
+  ["A Tour Without a Map", "Pick a short route you both know. One person guides the first half, the other the second.", "Each introduce an ordinary place as a must-see attraction."],
+  ["Map a Campus Stroll", "Pick three nearby spots with something distinctive about them. Walk between them and discuss what connects them.", "Name the route and draw the three points and the lines joining them."],
+  ["Make a Weather Report", "Look at nearby leaves, puddles, or shadows. Find two details that capture today's weather.", "One of you presents and the other makes sound effects. Give a three-sentence report."],
+  ["How Many Erasers Tall?", "Guess how many eraser lengths tall a cup is, then set the objects side by side to check. Use finger widths if you lack an eraser.", "Compare your guess with the result. Did your eyes overestimate or underestimate?"],
+  ["A Fill-in-the-Blank from Yesterday", "Pick a tiny incident from yesterday and remove its most important noun: “I nearly mistook ___ for my campus card.”", "Fill in what really happened, then invent a more ridiculous answer."],
+  ["Silent Drummer", "Tap your thumbs lightly against your fingertips. Make an eight-beat rhythm with an optional rest.", "Repeat it twice without looking at your hands. Stop at the same point the second time."],
+  ["The Five-Second Memory Case", "Glance at five things near your desk, then look away and recall them from left to right.", "Check which position you missed. If you get them all, guess which way one object faces."],
+  ["Guess the Class in Three Emojis", "Pick one of today's classes and describe its name with three emojis and no words.", "Replace the most obvious emoji. Does the clue still make sense?"],
+  ["Give an Object the Day Off", "Choose an object that works every day and write its leave request. Maybe the stapler wants to see an ocean with nothing holding it together.", "Explain the reason in the object's voice and sign its name."],
+  ["An Animal in Five Strokes", "Make five short, random marks on paper or in a drawing app. Turn each mark into part of the same animal.", "Use all five marks and add an expression that shows its personality."],
+  ["One Message, Three Eras", "Write an everyday message such as “I'm at the canteen.” Rewrite it as an old letter, a telegram, and a space station transmission.", "Hide the labels and read them aloud. Which sounds most like its era?"],
+  ["Desk Lost-and-Found Mystery", "Pick three things on your desk and imagine they were found in the same lost-and-found pouch.", "Tell a story that uses all three and reveals the owner in the last sentence."],
+  ["Make a Mini Word Puzzle", "Choose a four-letter word and give one clue for each letter. Keep the answer out of the clues.", "Read the clues in reverse and change the one that gives away the answer most easily."],
+  ["The Other-Hand Test", "Use your dominant hand to draw a route with three bends, then copy it with the other hand.", "Find the least accurate bend and turn it into something else."],
+  ["Fold a Pocket Zine", "Fold scrap paper twice to make four panels, or use four notes sections. Choose a tiny theme such as “Four Seasons at My Desk.”", "Make a cover, two inside pages, and a back cover signed with a pen name."],
+  ["Vending Machine Codes", "Imagine a vending machine that sells abstract things, like a minute of courage. Draw six buttons and label what each one drops.", "Pick two buttons and write down what happens when you press them in sequence."],
+  ["Write a Branching Story", "Start with “The elevator opened. Inside was just an umbrella.” Write branches for stepping in and staying out. Split each branch again.", "Write four one-sentence endings and play through one route from the start."],
+  ["Rebuild a Room from Memory", "Sketch a room you lived in as a child. Place the door and windows first, then add three pieces of furniture.", "Trace a path from door to bed, marking your least certain spot with a question mark."],
+  ["One Square Meter Outside", "Choose a small patch of ground outside the nearest door without blocking the way. Look for clues only inside that patch.", "Find a texture, a worn patch, and a small thing you never noticed, then head back."],
+  ["Find a Natural Arrow", "At a nearby corner, find a shape that looks as if it points somewhere, such as a leaf tip, brick seam, or railing.", "Stay where you are and follow the arrow with your eyes. Name the spot it “recommends.”"],
+  ["Door Number Hunt", "Pick a numbered sign by a door or along the hallway. Use only its digits to add, subtract, or multiply.", "Make a number linked to today, such as a date, class period, or lunch budget, and explain the connection."],
+  ["Hallway Palette", "Think of a specific color, like orange peel. Walk to the next door, looking for the closest match along the way.", "Give the match a better name than “orange,” then walk back."],
+  ["Change Your Viewpoint", "Find a nearby public seat. Look ahead while standing, then sit and look at the same spot.", "Find something you could see standing up that disappears when you sit."],
+  ["Ten Steps as a Ruler", "Choose a short, level stretch of sidewalk. Guess where ten normal steps would take you.", "Walk ten steps and see how many steps off your guess was."],
+  ["Which Edge Is Older?", "Find two edges made of the same material in a nearby hallway, such as two steps or floor tiles.", "Choose the one that looks older and point to a visible clue."],
+  ["Make a One-Line Sound Map", "Walk a short out-and-back route. Pause to listen at the start, halfway out, and where you turn back.", "Join the sounds in one line, such as “fan hum → bike bell → rustling leaves.”"],
+  ["What Was the Designer Thinking?", "Find a fixture such as a handle, drinking fountain drain, or bench. Look for a subtle notch or slope.", "Guess what problem it solves, then find a clue from another angle that tests your guess."],
+  ["Walk a Letter in the Tiles", "In a clear, paved space, pick a letter you can trace by following the tile seams.", "Walk its outline, step aside, and retrace it in the air with a finger."],
+  ["Five Things, Small to Large", "On a stroll, find five things in increasing size, starting with something button-sized and ending with something taller than you.", "Recall them in order. If there is a big jump, find something that fills it."],
+  ["A Wordless Guide for a New Student", "Pick a familiar route you can walk in a few minutes. Use only arrows and three landmark sketches to show the way.", "Read your guide backward on the return trip. Add a symbol at the easiest place to take a wrong turn."],
+  ["Collect Three Reasons to Pause", "Walk a nearby path and find three features that make people slow down, such as a corner, steps, or shade.", "Choose where you would most like to pause and leave a one-line note for someone passing by."],
+  ["Three Views, Closer Each Time", "Choose an object. Look at its surroundings, the whole object, and a close-up texture. Use a phone or sketch three frames.", "Arrange the views close-up first and wide shot last, so the final image reveals what it is."],
+  ["A Poem for the Walk Back", "On the way out, pick four things you can name precisely, like an awning, a leaf, a bell, and a bench. Turn back halfway through your time.", "On the walk back, write four lines using those words and adding only one verb to each."],
+  ["Nine-Square Mind Meld", "Draw a 3×3 grid each. Facing away from each other, place a sun, moon, and star in different squares.", "Reveal both grids. Score a point for each matching placement and explain where you put the sun."],
+  ["Same Word, Different Meaning", "Choose a word with multiple meanings, such as “mouse.” Each write a sentence while guessing which meaning the other will choose.", "Reveal your sentences. Did you both picture the same thing?"],
+  ["Guess It in Five Questions", "One person picks an object in sight. The other can ask up to five yes-or-no questions.", "Reveal the answer, swap roles, and see which question narrowed it down most."],
+  ["Make the Number Together", "Each show zero to five fingers at the same time. Aim for a total of six. Pick a different target under ten for round two.", "Play three rounds and compare which one you matched best."],
+  ["You're in the Wrong Movie", "One person says an ordinary campus line seriously. The other replies as if they are in a martial-arts movie.", "Swap roles and try it again as a documentary."],
+  ["Pass the Rhythm", "One person taps four beats on their palm. The other copies the rhythm and adds a beat.", "Take turns until you reach eight beats. If you forget, restart at the part you remember best."],
+  ["Don't Say That Word", "Give your partner a topic such as ordering bubble tea and a word they cannot say, such as “tea.”", "Speak for 30 seconds each, then explain how you got around the forbidden word."],
+  ["Describe the Drawing", "One person secretly draws a logo made of three shapes and describes it using only position and size.", "Compare the two drawings. Pick the clearest instruction and the one most open to misreading."],
+  ["Auction Your Shared Habits", "Each write three specific habits, like sipping the soup before eating noodles. Read them out and guess which habit the other will claim.", "Find a habit you share. If there is no match, pick one you would most like to borrow."],
+  ["Draw Everything but the Fruit", "One person picks a fruit and draws only what sits around it or where it is used. Leave the fruit itself out.", "Give the other person two guesses, reveal the fruit, and swap roles."],
+  ["The Six-Line Lost Item Broadcast", "Imagine a campus radio announcement for a piece of stationery that ran away. Take turns adding a line.", "Line six must explain why it left. Read the whole announcement aloud."],
+  ["Invent a Ten-Second Board Game", "Use three nearby objects as pieces and draw five spaces. Each invent a movement rule, then agree on how to win.", "Play twice, change just one rule, and play again to see what new choices it creates."],
+  ["Two Witnesses, One Missing Bun", "The canteen's last bun has vanished. One person plays the server and the other a passing spoon. Write three lines of testimony each.", "Find a contradiction and write an ending together that explains it."],
+  ["Curate Each Other's Mini Exhibit", "Each hand your partner an object you carry. As curator, they may ask you three questions about its origins.", "Write a museum label for each object and let its owner choose the most evocative line."],
+  ["One-Minute Campus Radio", "Plan a one-minute break-time broadcast. Each bring one local story, then agree on an intro and closing line.", "Perform it once as host and guest, then swap feedback from each perspective."],
+  ["Stop in Sync", "Walk side by side along a clear footpath. Agree to take no more than twelve steps, then decide separately when to stop without giving signals.", "Compare how many steps you took. Try again and see whether the gap shrinks."],
+  ["Measure in Sheets of Paper", "Point to a nearby door or bench. Each guess its length in long edges of A4 paper.", "Explain your guesses, then compare using your hands as a rough ruler."],
+  ["You Frame It, I Name It", "Go outside. One person frames a still object with their hands. The other looks only inside the frame and gives the scene a title.", "Swap roles, then combine both titles into one title for a two-part film."],
+  ["Find the Nearest Reflection", "Stand together and each guess which of the three nearest things can reflect light. Point at your choice at the same time.", "Take one step to look for a reflection and see whose guess can be proven."],
+  ["Hallway Rock, Paper, Scissors", "Each find a nearby shape or texture that looks like rock, paper, or scissors. Keep it secret and return to the same spot.", "Reveal your choices and point to the real objects. Score the round as usual."],
+  ["Guess the Color Around the Corner", "Before turning a hallway corner, each guess the background color of the first sign or door number you will see.", "Turn the corner to check. Give the most surprising color a nickname."],
+  ["Landmark Relay", "The first person picks a visible landmark and gives a clue. The second guesses, leads the way to it, and picks the next landmark.", "After two rounds, see if two clues can guide you back to the start."],
+  ["Same Route, Different Roles", "Walk a short route. One person plays a new student and the other a delivery worker. Each notice one confusing spot.", "Stop and compare, then point out one clue that helps the other navigate."],
+  ["Campus Wide Shot and Close-Up", "Pick the same public fixture. One person looks at where it fits in the surroundings while the other finds a distinctive detail.", "Describe your view in one sentence and have your partner point out exactly where you looked."],
+  ["Make the Sign Shorter", "Find a wordy sign. One person reads it, looks away, and sums it up in ten words. The other checks what got left out.", "Rewrite it together, trying to keep the place, direction, or required action."],
+  ["Write a Matching Couplet", "Take a short walk. One person writes a five-word line using objects they see. The other writes a matching line using different objects.", "Read both lines at the start and give the couplet a four-word title together."],
+  ["Set a Campus Navigation Challenge", "Each pick an outdoor destination in the same small area and write clues using three landmarks. Agree on a time to turn back.", "Swap clues and walk both routes together. Fix the clue most likely to send someone the wrong way."],
+  ["Vote with Your Feet", "Pick two short paths with the same start and finish. One person predicts which is faster and the other which is more pleasant. Write down your reasons.", "Walk both paths together and time them. Would you choose differently for class and for a stroll?"],
+  ["Silent Campus Scavenger Hunt", "One person picks three visible objects nearby and mimes them using different actions. The other finds the objects. Stay silent throughout.", "Swap roles and invent a clearer gesture for the hardest object to mime."],
+  ["Interview a Tree", "Find a tree by a public path. One person is the reporter and one plays the tree. Ask three questions based on visible details.", "Answer as the tree, then choose the line that makes the best headline."],
+];
+const englishDishes = [
+  "Tomato and Egg Rice",
+  "Rice Noodle Soup",
+  "Chicken and Shiitake Rice",
+  "Mixed Vegetable Noodles",
+  "Wonton Soup",
+  "Egg Fried Rice",
+  "Curry Rice",
+  "Grilled Meat Rice Bowl",
+  "Steamed Egg and Chicken Rice",
+  "Honey Char Siu Rice",
+  "Lotus Leaf Rice with Black Bean Ribs",
+  "Chaoshan Braised Goose Combo Rice",
+  "Salt-Baked Chicken Rice",
+  "Stir-Fried Pork and Chilli Rice",
+  "Mapo Tofu Rice",
+  "Sizzling Black Pepper Beef Rice",
+  "Wonton Noodles",
+  "Stir-Fried Beef Chow Fun",
+  "Beef Ball Rice Noodles",
+  "Guilin Rice Noodles",
+  "Hot and Sour Glass Noodles",
+  "Hand-Pulled Beef Noodle Soup",
+  "Wuhan Hot Dry Noodles",
+  "Pasta with Tomato Meat Sauce",
+  "Lean Pork Congee",
+  "Millet Porridge",
+  "Chicken and Shiitake Congee",
+  "Clay Pot Shrimp Congee",
+  "Pork Bun",
+  "Steamed Chive Dumplings",
+  "Sichuan Wontons in Chilli Oil",
+  "Scallion Pancake",
+  "Jianbing Breakfast Crepe",
+  "Egg Sandwich",
+  "Chicken Burger",
+  "Steamed Corn and Purple Sweet Potato",
+  "Black Pepper Chicken Grain Bowl",
+  "Build-Your-Own Mushroom Broth Malatang",
+  "Build-Your-Own Spicy Stir-Fry Pot",
+  "Fish and Pickled Greens Hot Pot",
+  "Tomato Beef Hot Pot",
+  "Clay Pot Pork Rib Soup",
+  "Sweet Red Bean Soup",
+  "Double-Skin Milk Pudding",
+];
+function t(text, values={}) {
+  const template=english&&Object.hasOwn(englishText,text)?englishText[text]:text;
+  return Object.keys(values).length?template.replace(/\{(\w+)\}/g,(match,key)=>Object.hasOwn(values,key)?String(values[key]):match):template;
+}
+function cardCopy(card) {
+  const translation=english&&englishCards[Number(card.id.slice(1))-1];
+  if(!translation)return card;
+  const [title,step,goal]=translation;
+  return {title,step,goal};
+}
+function dishTitle(dish) {
+  const index=Number(dish.id.slice(1))-1;
+  return english&&samples[index]?.id===dish.id&&samples[index].name===dish.name?englishDishes[index]||dish.name:dish.name;
+}
+document.documentElement.lang=language;
+if(english){
+  const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{
+    acceptNode(node){
+      return node.parentElement.closest("script,style,noscript,[data-language]")?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT;
+    }
+  });
+  for(let node=walker.nextNode();node;node=walker.nextNode()){
+    const label=node.data.trim();
+    if(label&&Object.hasOwn(englishText,label)){
+      node.data=node.data.replace(label,()=>englishText[label]);
+    }
+  }
+  for(const el of document.querySelectorAll("[aria-label],[placeholder],[title]")){
+    for(const attr of ["aria-label","placeholder","title"]){
+      if(el.hasAttribute(attr))el.setAttribute(attr,t(el.getAttribute(attr)));
+    }
+  }
+}
+for(const select of document.querySelectorAll("[data-language]")){
+  select.value=language;
+  select.addEventListener("change",()=>{
+    const chosen=select.value;
+    if(chosen===language)return;
+    if(select.closest("#account")){
+      try{sessionStorage.removeItem("tuyile-account-prompt");}catch{}
+    }
+    try{
+      localStorage.setItem(languageKey,chosen);
+      if(!queryLanguage){location.reload();return;}
+      languageURL.searchParams.delete("lang");
+    }catch{languageURL.searchParams.set("lang",chosen);}
+    location.replace(languageURL);
+  });
+}
+</script>
+<script>
 "use strict";
 
 const byId = id => document.getElementById(id);
@@ -1896,7 +2492,7 @@ function readMenu(h) {
 function priceBand(price) {
   return Math.max(5, Math.ceil(Math.round(price*100)/500)*5);
 }
-function bandLabel(upper) { return (upper-5)+"–"+upper+" 元"; }
+function bandLabel(upper) { return english?`¥${upper-5}–${upper}`:`${upper-5}–${upper} 元`; }
 function restoreHub(raw) {
   const h = raw || {};
   return {
@@ -1935,14 +2531,15 @@ function candidates() {
     (!hub.staple || d.staple===hub.staple) && (!hub.cuisine || d.cuisine===hub.cuisine) &&
     hub.tags.every(t=>d.tags.includes(t)));
 }
-function mealInfo(dish) {
-  return [dish.staple,dish.cuisine,...dish.tags].join(" · ");
+function mealInfo(dish, localized=true) {
+  const labels=[dish.staple,dish.cuisine,...dish.tags];
+  return (localized?labels.map(label=>t(label)):labels).join(" · ");
 }
 function makeOptions(id, values, first) {
   const el=byId(id);
   el.replaceChildren();
-  if(first) el.add(new Option(first,""));
-  for(const value of values) el.add(new Option(value,value));
+  if(first) el.add(new Option(t(first),""));
+  for(const value of values) el.add(new Option(t(value),value));
 }
 function setupTags(id) {
   const box=byId(id);
@@ -1951,7 +2548,7 @@ function setupTags(id) {
     const input=document.createElement("input");
     input.type="checkbox"; input.value=taste;
     const caption=document.createElement("span");
-    caption.textContent=taste;
+    caption.textContent=t(taste);
     label.append(input,caption); box.append(label);
   }
 }
@@ -1965,7 +2562,7 @@ function updateBands() {
   const select=byId("food-band");
   const bands=new Set([5,10,15,20,25,30,35,40,...hub.menu.map(d=>priceBand(d.price))]);
   if(hub.band) bands.add(hub.band);
-  select.replaceChildren(new Option("不限价格","0"));
+  select.replaceChildren(new Option(t("不限价格"),"0"));
   for(const band of [...bands].sort((a,b)=>a-b)) select.add(new Option(bandLabel(band),String(band)));
   select.value=String(hub.band);
 }
@@ -1980,15 +2577,15 @@ function displayOffer() {
   const pool=candidates();
   const dish=pool.find(d=>d.id===hub.offer);
   const dialog=byId("meal-dialog");
-  byId("food-count").textContent=pool.length?"符合条件："+pool.length+" 道":"暂无匹配，试试放宽一个条件";
+  byId("food-count").textContent=pool.length?t("符合条件：{count} 道",{count:pool.length}):t("暂无匹配，试试放宽一个条件");
   byId("food-roll").disabled=!pool.length;
-  byId("food-roll").firstChild.textContent=dish?"查看这道推荐 ":"帮我挑一餐 ";
+  byId("food-roll").firstChild.textContent=t(dish?"查看这道推荐":"帮我挑一餐")+" ";
   if(!dish&&dialog.open)dialog.close();
   if(rack.mode==="food")refreshRack();
   if(!dish)return false;
-  byId("meal-name").textContent=dish.name;
-  byId("meal-price").textContent="¥"+dish.price+" 参考价";
-  byId("meal-tags").textContent=[dish.source,mealInfo(dish)].filter(Boolean).join(" · ");
+  byId("meal-name").textContent=dishTitle(dish);
+  byId("meal-price").textContent=t("¥{price} 参考价",{price:dish.price});
+  byId("meal-tags").textContent=[t(dish.source),mealInfo(dish)].filter(Boolean).join(" · ");
   byId("meal-limit").hidden=pool.length!==1;
   byId("food-again").disabled=pool.length<2;
   return true;
@@ -2006,18 +2603,18 @@ function openMeal() {
 function endEdit() {
   editingDish=null;
   byId("menu-form").reset();
-  byId("dish-save").textContent="加入我的菜单";
+  byId("dish-save").textContent=t("加入我的菜单");
   byId("dish-cancel").hidden=true;
 }
 function editDish(d) {
   editingDish=d.id;
-  byId("dish-name").value=d.name;
+  byId("dish-name").value=dishTitle(d);
   byId("dish-source").value=d.source;
   byId("dish-price").value=d.price;
   byId("dish-staple").value=d.staple;
   byId("dish-cuisine").value=d.cuisine;
   setTags("dish-tags",d.tags);
-  byId("dish-save").textContent="保存修改";
+  byId("dish-save").textContent=t("保存修改");
   byId("dish-cancel").hidden=false;
   byId("dish-name").focus();
 }
@@ -2025,7 +2622,7 @@ function pickMeal() {
   const pool = candidates();
   if (!pool.length) {
     hub.offer = null;
-    byId("food-status").textContent = "这个条件下还没有菜。可以放宽预算，或在下面添加一家常吃的店。";
+    byId("food-status").textContent = t("这个条件下还没有菜。可以放宽预算，或在下面添加一家常吃的店。");
   } else {
     // 有替代项时先避开眼前这餐，再优先挑近期没选过的菜。
     let other = pool.filter(d=>d.id!==hub.offer);
@@ -2051,14 +2648,15 @@ function pickMeal() {
 function renderMenu() {
   const list = byId("menu-list");
   list.replaceChildren();
-  byId("menu-total").textContent="查看全部菜品（"+hub.menu.length+"）";
+  byId("menu-total").textContent=t("查看全部菜品（{count}）",{count:hub.menu.length});
   for (const d of hub.menu) {
     const row = document.createElement("li");
     const remove = document.createElement("button");
     remove.type = "button";
     remove.className = "mini-btn";
-    remove.textContent = "移除";
-    remove.setAttribute("aria-label","移除"+d.name);
+    const name=dishTitle(d);
+    remove.textContent = t("移除");
+    remove.setAttribute("aria-label",t("移除{name}",{name}));
     remove.addEventListener("click",()=>{
       hub.menu = hub.menu.filter(item=>item.id!==d.id);
       hub.seen = hub.seen.filter(id=>id!==d.id);
@@ -2070,10 +2668,10 @@ function renderMenu() {
     info.className="dish-info";
     const specs=document.createElement("small");
     specs.textContent=mealInfo(d);
-    info.append(d.name+" · "+d.source+" ¥"+d.price+(d.sample?"（示例）":""),specs);
+    info.append(name+" · "+t(d.source)+" ¥"+d.price+(d.sample?t("（示例）"):""),specs);
     const edit=document.createElement("button");
-    edit.type="button"; edit.className="mini-btn"; edit.textContent="编辑";
-    edit.setAttribute("aria-label","编辑"+d.name);
+    edit.type="button"; edit.className="mini-btn"; edit.textContent=t("编辑");
+    edit.setAttribute("aria-label",t("编辑{name}",{name}));
     edit.addEventListener("click",()=>editDish(d));
     row.append(info,edit,remove);
     list.append(row);
@@ -2087,33 +2685,41 @@ function record(kind,title,details={}) {
 function renderPocket() {
   const list = byId("entries");
   list.replaceChildren();
-  const old = state.done.map(e=>({...e,title:cards.get(e.id).title,kind:"趣事"}));
+  const old = state.done.map(e=>({...e,title:cardCopy(cards.get(e.id)).title,kind:"趣事"}));
   const entries = old.concat(hub.history).sort((a,b)=>b.when-a.when);
   if (!entries.length) {
     const hint=document.createElement("li");
-    hint.textContent="做完一件趣事、选定一餐或完成学习的第一步，就能在这里找回来。";
+    hint.textContent=t("做完一件趣事、选定一餐或完成学习的第一步，就能在这里找回来。");
     list.append(hint);
   }
   for (const entry of entries) {
     const row=document.createElement("li");
     const date=document.createElement("small");
-    date.textContent=entry.kind+" · "+new Date(entry.when).toLocaleDateString("zh-CN");
-    row.append(entry.title,date);
-    if(entry.detail) {const detail=document.createElement("small");detail.textContent=entry.detail;row.append(detail);}
+    date.textContent=t(entry.kind)+" · "+new Date(entry.when).toLocaleDateString(language);
+    const sample=entry.kind==="餐食"&&samples.find(d=>d.id===entry.dish&&d.name===entry.title);
+    row.append(sample?dishTitle(sample):entry.title,date);
+    if(entry.detail) {
+      const detail=document.createElement("small");
+      detail.textContent=english&&entry.kind==="餐食"?entry.detail.split(" · ").map(part=>{
+        const price=part.match(/^参考 ¥([\d.]+)$/);
+        return price?t("参考 ¥{price}",{price:price[1]}):t(part);
+      }).join(" · "):entry.detail;
+      row.append(detail);
+    }
     if(entry.kind==="趣事"){
       const like=document.createElement("button");
       like.className="mini-btn";
       function refreshLike(){
         const yes=hub.likes.includes(entry.id);
         like.setAttribute("aria-pressed",String(yes));
-        like.textContent=yes?"★ 还想再做":"☆ 还想再做";
+        like.textContent=(yes?"★ ":"☆ ")+t("还想再做");
       }
       like.dataset.like=entry.id;
       like.addEventListener("click",()=>{
         hub.likes=hub.likes.includes(entry.id)?hub.likes.filter(id=>id!==entry.id):hub.likes.concat(entry.id);
         list.querySelectorAll("[data-like]").forEach(b=>{
           const yes=hub.likes.includes(b.dataset.like);
-          b.textContent=yes?"★ 还想再做":"☆ 还想再做"; b.setAttribute("aria-pressed",String(yes));
+          b.textContent=(yes?"★ ":"☆ ")+t("还想再做"); b.setAttribute("aria-pressed",String(yes));
         });
         updateFavorites();persist();
       });
@@ -2122,11 +2728,11 @@ function renderPocket() {
     list.append(row);
   }
   updateFavorites();
-  byId("feedback-summary").textContent=state.votes.length?"本机换卡原因 · "+reasons.map(reason=>
-    reason+" "+state.votes.filter(v=>v.reason===reason).length+" 次").join(" / "):"";
+  byId("feedback-summary").textContent=state.votes.length?t("本机换卡原因")+" · "+reasons.map(reason=>
+    t(reason)+" "+t("{count} 次",{count:state.votes.filter(v=>v.reason===reason).length})).join(" / "):"";
 }
 function updateFavorites() {
-  byId("liked-list").textContent=hub.likes.length?"还想再做 · "+hub.likes.map(id=>cards.get(id).title).join("、"):"";
+  byId("liked-list").textContent=hub.likes.length?t("还想再做")+" · "+hub.likes.map(id=>cardCopy(cards.get(id)).title).join(english?", ":"、"):"";
 }
 function initHub() {
   for(const b of document.querySelectorAll("[data-mode]")) b.addEventListener("click",()=>{setMode(b.dataset.mode);persist();});
@@ -2155,9 +2761,9 @@ function initHub() {
   byId("food-confirm").addEventListener("click",()=>{
     const dish=candidates().find(d=>d.id===hub.offer);
     if(!dish)return;
-    record("餐食",dish.name,{dish:dish.id,detail:dish.source+" · 参考 ¥"+dish.price+" · "+mealInfo(dish)});
+    record("餐食",dish.name,{dish:dish.id,detail:dish.source+" · 参考 ¥"+dish.price+" · "+mealInfo(dish,false)});
     hub.offer=null;
-    byId("food-status").textContent="这顿选了「"+dish.name+"」，已记进口袋。";
+    byId("food-status").textContent=t("这顿选了「{name}」，已记进口袋。",{name:dishTitle(dish)});
     byId("meal-dialog").close();
     displayOffer();persist();
   });
@@ -2165,14 +2771,16 @@ function initHub() {
     e.preventDefault();
     const name=byId("dish-name").value.trim();
     if(!name){byId("dish-name").focus();return;}
-    const dish={id:editingDish || "m"+Date.now().toString(36)+Math.random().toString(36).slice(2,7),name,
+    const previous=hub.menu.find(d=>d.id===editingDish);
+    const storedName=previous&&name===dishTitle(previous)?previous.name:name;
+    const dish={id:editingDish || "m"+Date.now().toString(36)+Math.random().toString(36).slice(2,7),name:storedName,
       price:Number(byId("dish-price").value),source:byId("dish-source").value,
       staple:byId("dish-staple").value,cuisine:byId("dish-cuisine").value,tags:checkedTags("dish-tags")};
-    const action=editingDish?"已更新":"已添加";
+    const action=editingDish?"已更新「{name}」。":"已添加「{name}」。";
     if(editingDish) hub.menu=hub.menu.map(d=>d.id===editingDish?dish:d);
     else hub.menu.push(dish);
     endEdit(); renderMenu(); updateBands(); displayOffer(); persist();
-    byId("food-status").textContent=action+"「"+name+"」。";
+    byId("food-status").textContent=t(action,{name});
   });
   setupStudy();
   renderMenu();displayOffer();drawStudy();setMode(hub.mode);countPocket();
@@ -2197,7 +2805,7 @@ function changeScene(reason) {
   renderScene();
 }
 function renderScene() {
-  const labels=currentScene().map(reason=>situationLabels[reason]);
+  const labels=currentScene().map(reason=>t(situationLabels[reason]));
   byId("scene-note").hidden=!labels.length;
   byId("scene-label").textContent=labels.join(" · ");
 }
@@ -2247,11 +2855,13 @@ function customAwards(entries) {
       themeTotals.set(name,themeTotals.get(name)+1);
     }
     if((i+1)%3!==0)return;
-    const signature=[...themeTotals].filter(([,score])=>score>0).sort((a,b)=>b[1]-a[1]).slice(0, i>=5?3:2).map(([name])=>name).join("");
+    const themes=[...themeTotals].filter(([,score])=>score>0).sort((a,b)=>b[1]-a[1]).slice(0, i>=5?3:2).map(([name])=>name);
+    const signature=themes.join("");
     const order=(variants.get(signature)||0);variants.set(signature,order+1);
     const ranks=["家","达人","能手","大师","玩家","队长","专家"];
-    const suffix=order<ranks.length?ranks[order]:String(order+1)+"阶";
-    titles.push({at:i+1,name:[...signature+suffix].slice(0,10).join(""),latest:entries.slice(i-2,i+1).map(x=>cards.get(x.id).title)});
+    const suffix=order<ranks.length?t(ranks[order]):t("{count}阶",{count:order+1});
+    const name=english?themes.map(theme=>t(theme)).join(" & ")+" "+suffix:[...signature+suffix].slice(0,10).join("");
+    titles.push({at:i+1,name,latest:entries.slice(i-2,i+1).map(x=>cardCopy(cards.get(x.id)).title)});
   });
   return titles;
 }
@@ -2264,13 +2874,13 @@ function renderAwards() {
   const all=orderedCompletions(state.done);
   const personal=customAwards(all);
   const remaining=3-all.length%3;
-  byId("award-progress").textContent=all.length+" 次完成 · "+entries.length+" 张不同的卡 · 下个称号还差 "+remaining+" 次";
+  byId("award-progress").textContent=t("{all} 次完成 · {unique} 张不同的卡 · 下个称号还差 {remaining} 次",{all:all.length,unique:entries.length,remaining});
   const custom=byId("custom-awards");
   custom.replaceChildren();
-  if(!personal.length){const row=document.createElement("li");row.textContent="完成 3 次趣事卡，就能获得第一个专属称号。";custom.append(row);}
+  if(!personal.length){const row=document.createElement("li");row.textContent=t("完成 3 次趣事卡，就能获得第一个专属称号。");custom.append(row);}
   for(const item of [...personal].reverse()){
     const row=document.createElement("li"),name=document.createElement("strong"),detail=document.createElement("small");
-    name.textContent=item.name;detail.textContent="第 "+item.at+" 张 · "+item.latest.join("、");
+    name.textContent=item.name;detail.textContent=t("第 {at} 张 · {cards}",{at:item.at,cards:item.latest.join(english?", ":"、")});
     row.append(name,detail);custom.append(row);
   }
   const list=byId("standard-awards");
@@ -2278,7 +2888,7 @@ function renderAwards() {
   const cardData=entries.map(e=>cards.get(e.id));
   const days=new Set(entries.map(e=>localDay(e.when)));
   const badges=[
-    ...standardAwards.map(([target,name])=>[entries.length>=target,name,Math.min(entries.length,target)+"/"+target+" 张"]),
+    ...standardAwards.map(([target,name])=>[entries.length>=target,name,t("{done}/{target} 张",{done:Math.min(entries.length,target),target})]),
     [cardData.filter(c=>c.people==="pair").length>=3,"搭档有约","完成 3 张双人趣事卡"],
     [cardData.filter(c=>c.place==="out").length>=5,"校园探路员","完成 5 张外出趣事卡"],
     [[...days].some(d=>days.has(d+1)&&days.has(d+2)),"三日寻乐","连续 3 天完成新卡"]
@@ -2286,7 +2896,7 @@ function renderAwards() {
   for(const [unlocked,name,detail] of badges){
     const row=document.createElement("li"),heading=document.createElement("strong"),meta=document.createElement("small");
     row.dataset.unlocked=String(unlocked);
-    heading.textContent=name;meta.textContent=detail+(unlocked?" · 已解锁":"");
+    heading.textContent=t(name);meta.textContent=t(detail)+(unlocked?" · "+t("已解锁"):"");
     row.append(heading,meta);list.append(row);
   }
 }
@@ -2324,7 +2934,7 @@ function persist() {
     localStorage.setItem(storageKey, JSON.stringify(state));
   } catch {
     persistent = false;
-    byId("notice").textContent = "当前浏览器无法保存，记录仅在本次打开期间有效。";
+    byId("notice").textContent = t("当前浏览器无法保存，记录仅在本次打开期间有效。");
   }
 }
 
@@ -2346,10 +2956,11 @@ function showPanel(id, focusId) {
   if (focusId) {focusResult(focusId);riseGlyphs(byId(focusId));}
 }
 function showCard(card, focus) {
-  byId("tags").textContent = [card.minutes + " 分钟", places[card.place], people[card.people]].join(" · ");
-  byId("card-title").textContent = card.title;
-  byId("step").textContent = card.step;
-  byId("goal").textContent = card.goal;
+  const {title,step,goal}=cardCopy(card);
+  byId("tags").textContent = [t("{count} 分钟",{count:card.minutes}),t(places[card.place]),t(people[card.people])].join(" · ");
+  byId("card-title").textContent = title;
+  byId("step").textContent = step;
+  byId("goal").textContent = goal;
   showPanel("result", focus ? "card-title" : null);
 }
 function draw(skip=null) {
@@ -2359,7 +2970,7 @@ function draw(skip=null) {
   const card = pickCard(state.selection, state.recent, typeof skip==="string"?skip:null);
   if (!card) {
     setup();
-    byId("notice").textContent = currentScene().length?"当前场景没有其他合适的卡，可清除场景或调整条件。":"没有其他合适的卡，可调整筛选条件。";
+    byId("notice").textContent = t(currentScene().length?"当前场景没有其他合适的卡，可清除场景或调整条件。":"没有其他合适的卡，可调整筛选条件。");
     return;
   }
   if (persistent) byId("notice").textContent = "";
@@ -2416,7 +3027,7 @@ byId("complete").addEventListener("click", () => {
   persist();
   countPocket();
   const earned=state.done.length%3===0 ? customAwards(orderedCompletions(state.done)).at(-1) : null;
-  byId("saved-name").textContent="「"+card.title+"」已记入完成记录。"+(earned?" 新称号 · "+earned.name:"");
+  byId("saved-name").textContent=t("「{title}」已记入完成记录。",{title:cardCopy(card).title})+(earned?" "+t("新称号 · {name}",{name:earned.name}):"");
   showPanel("saved", "saved-heading");
   refreshRack();
 });
@@ -2439,7 +3050,7 @@ const modelDatabaseName="tuyile-study-model";
 const cookieChoiceKey="tuyile-storage-preferences-v1";
 const modelNote=byId("model-note");
 const defaultModelNote=modelNote.textContent;
-const cachedModelNote="本机模型已缓存，可离线生成。";
+const cachedModelNote=t("本机模型已缓存，可离线生成。");
 let cookieChoice=null;
 try{cookieChoice=localStorage.getItem(cookieChoiceKey);}catch{}
 if(cookieChoice!=="necessary"&&cookieChoice!=="functional")cookieChoice=null;
@@ -2510,7 +3121,7 @@ async function downloadWeights(signal,notify){
         const {done,value}=await reader.read();if(done)break;
         renew();bytes.set(value,offset);offset+=value.byteLength;
         const pct=Math.floor(100*offset/WEIGHT_BYTES);
-        if(pct!==displayed){notify("正在下载本机模型 · "+pct+"%");displayed=pct;}
+        if(pct!==displayed){notify(t("正在下载本机模型 · {percent}%",{percent:pct}));displayed=pct;}
       }
       if(offset!==WEIGHT_BYTES||String.fromCharCode(...bytes.subarray(0,4))!=="GGUF")throw Error("模型文件不完整");
       return new Blob([bytes]);
@@ -2529,13 +3140,13 @@ async function unpack(id,type){
 }
 async function getEngine(signal,notify){
   if(modelEngine)return modelEngine;
-  notify("正在检查本机模型…");
+  notify(t("正在检查本机模型…"));
   let weights=memoryWeights||await cachedWeights();
   if(!weights){
     weights=await downloadWeights(signal,notify);
     void cacheWeights(weights);
   }
-  memoryWeights=weights;signal.throwIfAborted();notify("正在启动本机模型…");
+  memoryWeights=weights;signal.throwIfAborted();notify(t("正在启动本机模型…"));
   const moduleURL=await unpack("engine-code","text/javascript"), wasmURL=await unpack("engine-wasm","application/wasm");
   let engine,timeout,abort;
   try{
@@ -2557,20 +3168,38 @@ async function generateStudy(task,block,signal,notify){
   const clean=s=>s.replaceAll("<|","〈|");
   const code=Object.keys(blockNames).find(k=>blockNames[k]===block)||"start";
   const scaffold=quickPlan(task,code);
-  const prompt="<|im_start|>system\n你是校园学习教练。按下面示例格式写四行。回应要提到任务里的难点。三步必须不同：准备具体素材、操作、检查。每步只写一个能执行的短句，尊重题目限制。<|im_end|>\n<|im_start|>user\n明天要背诵《春晓》，总混淆后两句。<|im_end|>\n<|im_start|>assistant\n建议：先抓住从声音到落花的顺序。\n1. 把后两句分别抄到两张小纸条上，圈出“风雨”和“花落”。\n2. 盖住纸条，只看两个关键词，按顺序背一遍。\n3. 交换纸条顺序，再凭记忆排回来并核对原诗。<|im_end|>\n<|im_start|>user\n"+clean(task)+"\n卡点："+clean(block)+"。请按这个格式为我的任务写计划。<|im_end|>\n<|im_start|>assistant\n建议：";
-  notify("正在分析任务和卡点…");let latest=0;
+  const prompt=english?`<|im_start|>system
+You are a campus study coach. Reply in English. Write four lines: one short suggestion and exactly three numbered actions. Prepare materials, do the work, then check it. Mention the task's specific difficulty and honor the user's requirements.
+<|im_end|>
+<|im_start|>user
+I need to give a talk about campus recycling. I have survey data but no opening.
+<|im_end|>
+<|im_start|>assistant
+Use your most surprising survey result to open the talk.
+1. Pick one survey result and write it in a short sentence.
+2. Follow it with one concrete example from campus.
+3. Read the opening aloud and trim it to twenty seconds.
+<|im_end|>
+<|im_start|>user
+${clean(task)}
+What's holding me up: ${clean(t(block))}
+<|im_end|>
+<|im_start|>assistant
+`:"<|im_start|>system\n你是校园学习教练。按下面示例格式写四行。回应要提到任务里的难点。三步必须不同：准备具体素材、操作、检查。每步只写一个能执行的短句，尊重题目限制。<|im_end|>\n<|im_start|>user\n明天要背诵《春晓》，总混淆后两句。<|im_end|>\n<|im_start|>assistant\n建议：先抓住从声音到落花的顺序。\n1. 把后两句分别抄到两张小纸条上，圈出“风雨”和“花落”。\n2. 盖住纸条，只看两个关键词，按顺序背一遍。\n3. 交换纸条顺序，再凭记忆排回来并核对原诗。<|im_end|>\n<|im_start|>user\n"+clean(task)+"\n卡点："+clean(block)+"。请按这个格式为我的任务写计划。<|im_end|>\n<|im_start|>assistant\n建议：";
+  notify(t("正在分析任务和卡点…"));let latest=0;
   const raw=await engine.createCompletion(prompt,{nPredict:255,useCache:true,abortSignal:signal,sampling:{temp:.35,top_p:.92,penalty_repeat:1.13},
     onNewToken(_t,_piece,text,control){
       const matches=[...text.matchAll(/(?:^|\n)\s*([1-3])[.．、)）]/gu)];
       const step=Number(matches.at(-1)?.[1]||0);
-      if(step!==latest){latest=step;notify("正在写第 "+step+" / 3 步…");}
-      if(step===3&&/[。！？]\s*$/u.test(text.slice(matches.at(-1).index)))control.abortSignal();
+      if(step!==latest){latest=step;notify(t("正在写第 {step} / 3 步…",{step}));}
+      const thirdStep=step===3?text.slice(matches.at(-1).index+matches.at(-1)[0].length).trim():"";
+      if(thirdStep.length>8&&/[。！？.!?]$/u.test(thirdStep))control.abortSignal();
     }});
   signal.throwIfAborted();
   const tidy=s=>s.replace(/[*#`]/gu,"").trim();
-  const cleanText=tidy(raw).replace(/(?:^|\s)(?:步骤\s*([123])|第([一二三])步)\s*[：:、.．]/gu,(_all,num,han)=>"\n"+(num||"一二三".indexOf(han)+1)+". ");
+  const cleanText=tidy(raw).replace(/(?:^|\s)(?:(?:步骤|step)\s*([123])|第([一二三])步)\s*[：:、.．]/giu,(_all,num,han)=>"\n"+(num||"一二三".indexOf(han)+1)+". ");
   const fields=cleanText.split(/(?:^|\s)\s*[123]\s*[.．、)）:：]\s*/u);
-  const reply=tidy(fields.shift()||"").replace(/^建议[：:]\s*/u,"");
+  const reply=tidy(fields.shift()||"").replace(/^(?:建议|suggestion|advice)[：:]\s*/iu,"");
   if(!reply&&!fields.length)throw Error("模型没有完成计划");
   const items=[],fallback=[scaffold.items[0],scaffold.items.at(-2),scaffold.items.at(-1)];
   for(let i=0;i<3;i++){
@@ -2578,8 +3207,8 @@ async function generateStudy(task,block,signal,notify){
     items.push(line.length>4&&!items.includes(line)&&line!==reply?line:fallback[i]);
   }
   // Keep explicit acceptance criteria available even if the small model omits one.
-  const conditions=task.split(/[，,；;。\n]/u).map(s=>s.trim()).filter(s=>s.length>2&&s.length<100&&/(必须|至少|最多|不超过|限定|只能|需要|要算|忽略|大小写|分钟|只用|要求)/u.test(s));
-  if(conditions.length)items[2]+=" 核对原要求："+conditions.slice(0,2).join("；")+"。";
+  const conditions=task.split(/[，,；;。\n]/u).map(s=>s.trim()).filter(s=>s.length>2&&s.length<100&&/(必须|至少|最多|不超过|限定|只能|需要|要算|忽略|大小写|分钟|只用|要求|\b(?:must|at least|at most|only|required|minutes?|within)\b)/iu.test(s));
+  if(conditions.length)items[2]+=" "+t("核对原要求：{conditions}。",{conditions:conditions.slice(0,2).join(english?" / ":"；")});
   return {reply:reply||scaffold.reply,items,source:"本机 AI"};
 }
 
@@ -2597,43 +3226,46 @@ function restorePlan(h){
 }
 function quickPlan(raw,block){
   // Extract the user's own topic, deliverables and sequence before choosing a work method.
-  const task=raw.replace(/[。！？\s]+$/u,"");
-  const chunks=task.split(/(?:；|;|。|\n|，?然后|，?最后|，?接着)/u).map(s=>s.replace(/^先/u,"").trim()).filter(Boolean);
-  const quoted=task.match(/[《「“]([^》」”]+)[》」”]/u);
+  const task=raw.replace(/[。！？.!?\s]+$/u,"");
+  const chunks=task.split(/(?:；|;|。|\n|，?然后|，?最后|，?接着|,?\s+\b(?:then|finally|next)\b)/iu).map(s=>s.replace(/^先/u,"").trim()).filter(Boolean);
+  const quoted=task.match(/[《「“"]([^》」”"]+)[》」”"]/u);
   const first=chunks[0]||task;
-  const subject=quoted?.[1]||first.replace(/^(?:我(?:需要|想要|想|要)?|请帮我|帮我|计划|准备)+/u,"").replace(/^(?:在)?(?:今晚|明天|下周|今天)(?:之前|前)?[完成交写做]*|^(?:完成|学习|复习|写一篇|写一份|做一份|制作|撰写|练习)/u,"").trim()||first;
-  const topic="「"+subject.slice(0,62)+"」";
+  const subject=quoted?.[1]||first.replace(/^(?:我(?:需要|想要|想|要)?|请帮我|帮我|计划|准备)+/u,"").replace(/^(?:在)?(?:今晚|明天|下周|今天)(?:之前|前)?[完成交写做]*|^(?:完成|学习|复习|写一篇|写一份|做一份|制作|撰写|练习)/u,"").replace(/^I (?:need|want|have|plan) to\s+/iu,"").trim()||first;
+  const topic=english?"“"+subject.slice(0,62)+"”":"「"+subject.slice(0,62)+"」";
+  const copy=message=>t(message,{topic});
   let strategy;
-  if(/编程|代码|程序|python|javascript|java\b|函数|算法|调试/i.test(task))strategy=["小输入和预期输出","给"+topic+"写一个最小输入和预期输出，先手算一遍。","只实现能通过这个例子的核心逻辑，记录实际输出。","改动一个输入条件，再跑一次，对比两次结果并解释差异。"];
-  else if(/数学|积分|方程|概率|导数|证明|物理|习题|电路|力学/.test(task))strategy=["一题完整的演算","从"+topic+"里选一道代表题，分两栏写出已知量与要证或要求的量。","挑一个能连接两栏的公式或定义，写出代入后的第一行，再逐行推到结论。","用一个简单数值或边界情况检验结论，圈出最容易漏掉的条件。"];
-  else if(/演讲|发言|答辩|展示|ppt|汇报/i.test(task))strategy=["一段能讲出来的主线","围绕"+topic+"写一句听众离开时应该记住的话。","选一个支持这句话的例子，按「问题、例子、结论」写出三句讲稿。","不看稿讲一遍并计时，删掉最偏题的一句。"];
-  else if(/单词|英语|日语|德语|法语|背诵|词汇/.test(task))strategy=["一次脱稿回忆","从"+topic+"挑出最不熟的三项，分别写下释义或提示词。","遮住原文，根据提示逐项说出来，把想不起来的标记出来。","为标记项各造一个例句，再遮住答案自测一次。"];
-  else if(/调查|问卷|数据|统计|图表|分析/.test(task))strategy=["一个可检验的问题","把"+topic+"改写成一个可以用数据回答的问题，写清要比较的两项。","取一小组已有数据，标出单位和来源，做一张两列对照表。","根据表中差异写一句发现，再记下一条目前还不能得出的结论。"];
-  else if(/作文|写作|文章|报告|论文|文献|读后感/.test(task))strategy=["一段有依据的初稿","以"+topic+"为题，写下一句你想主张或回答的话。","从手头材料选一处证据，记下出处和它支持这句话的原因。","把主张、证据、解释连成一段，标出下一段要回答的问题。"];
-  else if(/画|设计|海报|摄影|剪辑|视频/.test(task))strategy=["一个可比较的草案","为"+topic+"写一句用途说明，点明谁会看到它和想传达什么。","围绕同一重点做两个小样，只改变一种布局或表达方式。","按用途比较两版，留下较清楚的一版并标出下一处修改。"];
-  else strategy=["一个可以检查的小成果","围绕"+topic+"写出你希望完成的最小成果，再定一个能判断完成的标准。","选一个与你的目标最接近的例子，照着独立做出第一版。","按刚写的标准检查第一版，把一个具体差距改好，再记下下一步。"];
-  let items=strategy.slice(1);
-  if(chunks.length>1)items=chunks.slice(0,5).map((part,i)=>i===0?"先处理「"+part+"」，留下一份可核对的初稿或解题记录。":"接着完成「"+part+"」，用上一步的结果检查两者能否衔接。");
-  const prep={info:"先为"+topic+"找出作业说明或原材料，记下一个缺口和能回答它的人或资料。",back:"打开"+topic+"上次的草稿，圈出最后完成的位置，用一句话标注接下来的动作。",big:"把"+topic+"缩到这一轮能完成的一小部分，写下本轮范围。"};
-  if(prep[block])items.unshift(prep[block]);
-  return {source:"快速拆解",reply:"这次先把"+topic+"推进到"+strategy[0]+"。"+(block==="info"?"先补齐会挡住动手的材料。":block==="back"?"从已有进度接着走。":""),items};
+  if(/编程|代码|程序|函数|算法|调试|\b(?:cod(?:e|ing)|programming|python|javascript|java|debug|algorithm|function)\b/i.test(task))strategy=["小输入和预期输出","给{topic}写一个最小输入和预期输出，先手算一遍。","只实现能通过这个例子的核心逻辑，记录实际输出。","改动一个输入条件，再跑一次，对比两次结果并解释差异。"];
+  else if(/数学|积分|方程|概率|导数|证明|物理|习题|电路|力学|\b(?:maths?|calculus|equations?|probability|derivative|proof|physics|circuit|mechanics)\b/i.test(task))strategy=["一题完整的演算","从{topic}里选一道代表题，分两栏写出已知量与要证或要求的量。","挑一个能连接两栏的公式或定义，写出代入后的第一行，再逐行推到结论。","用一个简单数值或边界情况检验结论，圈出最容易漏掉的条件。"];
+  else if(/演讲|发言|答辩|展示|ppt|汇报|\b(?:speech|talk|slides|presentation|present|pitch)\b/i.test(task))strategy=["一段能讲出来的主线","围绕{topic}写一句听众离开时应该记住的话。","选一个支持这句话的例子，按「问题、例子、结论」写出三句讲稿。","不看稿讲一遍并计时，删掉最偏题的一句。"];
+  else if(/单词|英语|日语|德语|法语|背诵|词汇|\b(?:vocabulary|memorize|recite|flashcards?|spanish|french|japanese|german)\b/i.test(task))strategy=["一次脱稿回忆","从{topic}挑出最不熟的三项，分别写下释义或提示词。","遮住原文，根据提示逐项说出来，把想不起来的标记出来。","为标记项各造一个例句，再遮住答案自测一次。"];
+  else if(/调查|问卷|数据|统计|图表|分析|\b(?:survey|data|statistics|questionnaire|chart|analy[sz]e)\b/i.test(task))strategy=["一个可检验的问题","把{topic}改写成一个可以用数据回答的问题，写清要比较的两项。","取一小组已有数据，标出单位和来源，做一张两列对照表。","根据表中差异写一句发现，再记下一条目前还不能得出的结论。"];
+  else if(/作文|写作|文章|报告|论文|文献|读后感|\b(?:essay|writing|article|report|thesis|literature review)\b/i.test(task))strategy=["一段有依据的初稿","以{topic}为题，写下一句你想主张或回答的话。","从手头材料选一处证据，记下出处和它支持这句话的原因。","把主张、证据、解释连成一段，标出下一段要回答的问题。"];
+  else if(/画|设计|海报|摄影|剪辑|视频|\b(?:design|poster|photography|video|drawing|edit footage)\b/i.test(task))strategy=["一个可比较的草案","为{topic}写一句用途说明，点明谁会看到它和想传达什么。","围绕同一重点做两个小样，只改变一种布局或表达方式。","按用途比较两版，留下较清楚的一版并标出下一处修改。"];
+  else strategy=["一个可以检查的小成果","围绕{topic}写出你希望完成的最小成果，再定一个能判断完成的标准。","选一个与你的目标最接近的例子，照着独立做出第一版。","按刚写的标准检查第一版，把一个具体差距改好，再记下下一步。"];
+  let items=strategy.slice(1).map(copy);
+  if(chunks.length>1)items=chunks.slice(0,5).map((part,i)=>t(i===0?"先处理「{part}」，留下一份可核对的初稿或解题记录。":"接着完成「{part}」，用上一步的结果检查两者能否衔接。",{part}));
+  const prep={info:"先为{topic}找出作业说明或原材料，记下一个缺口和能回答它的人或资料。",back:"打开{topic}上次的草稿，圈出最后完成的位置，用一句话标注接下来的动作。",big:"把{topic}缩到这一轮能完成的一小部分，写下本轮范围。"};
+  if(prep[block])items.unshift(copy(prep[block]));
+  const reply=t("这次先把{topic}推进到{result}。",{topic,result:t(strategy[0])});
+  const next=block==="info"?"先补齐会挡住动手的材料。":block==="back"?"从已有进度接着走。":"";
+  return {source:"快速拆解",reply:reply+(next?(english?" ":"")+t(next):""),items};
 }
 function studyPool(){
   const plan=hub.plan;
   if(!plan)return [];
-  return plan.items.map((action,i)=>({id:"step-"+i,no:String(i+1),title:action.replace(/[。！]$/u,""),meta:(i<plan.index?"已完成":i===plan.index?"当前步骤":"接下来")+" · "+(i+1)+"/"+plan.items.length,action}));
+  return plan.items.map((action,i)=>({id:"step-"+i,no:String(i+1),title:action.replace(/[。！.!]$/u,""),meta:t(i<plan.index?"已完成":i===plan.index?"当前步骤":"接下来")+" · "+(i+1)+"/"+plan.items.length,action}));
 }
 function drawStudy(){
   const plan=hub.plan,active=Boolean(hub.working&&plan);
   byId("study-form").hidden=active;byId("study-action").hidden=!active;
   byId("resume-plan").hidden=!plan||active;
-  byId("study-heading").textContent=active?"你的学习路线":"把任务拆成步骤";
+  byId("study-heading").textContent=t(active?"你的学习路线":"把任务拆成步骤");
   byId("study-task").value=hub.task;byId("study-block").value=hub.block;
   byId("small-step").value=hub.action;byId("bookmark").value=hub.bookmark;
   byId("study-name").textContent=hub.task;
   if(active){
-    byId("study-reply").textContent=plan.reply;
-    byId("plan-source").textContent=plan.source;
+    byId("study-reply").textContent=t(plan.reply);
+    byId("plan-source").textContent=t(plan.source);
     const list=byId("plan-list");list.replaceChildren();
     plan.items.forEach((s,i)=>{
       const row=document.createElement("li");row.className=i<plan.index?"done":i===plan.index?"current":"";
@@ -2641,12 +3273,12 @@ function drawStudy(){
       const no=document.createElement("b");no.textContent=i<plan.index?"✓":String(i+1).padStart(2,"0");
       const text=document.createElement("span");text.textContent=s;row.append(no,text);list.append(row);
     });
-    byId("step-label").textContent="编辑第 "+(plan.index+1)+" 步";
-    byId("advance-study").textContent=plan.index+1===plan.items.length?"完成计划，收进口袋":"完成这步，继续下一步";
+    byId("step-label").textContent=t("编辑第 {step} 步",{step:plan.index+1});
+    byId("advance-study").textContent=t(plan.index+1===plan.items.length?"完成计划，收进口袋":"完成这步，继续下一步");
   }
   if(rack.mode==="study")refreshRack();
 }
-function studyMessage(text){byId("study-status").textContent=text;}
+function studyMessage(text){byId("study-status").textContent=t(text);}
 function setStudyBusy(busy){
   for(const el of byId("study-form").elements)el.disabled=busy;
   byId("study-cancel").hidden=!busy;
@@ -2691,14 +3323,14 @@ function setupStudy(){
       plan.index++;hub.action=plan.items[plan.index];hub.studyCard="step-"+plan.index;
       persist();drawStudy();spinTo(hub.studyCard,()=>focusResult("study-name"));return;
     }
-    record("学习",hub.task,{detail:plan.items.map((v,i)=>(i+1)+". "+v).join("　")+(hub.bookmark?" · 断点："+hub.bookmark:"")});
-    studyMessage("「"+hub.task+"」的学习记录已收进口袋。");
+    record("学习",hub.task,{detail:plan.items.map((v,i)=>(i+1)+". "+v).join(english?"  ":"　")+(hub.bookmark?" · "+t("断点：{note}",{note:hub.bookmark}):"")});
+    studyMessage(t("「{task}」的学习记录已收进口袋。",{task:hub.task}));
     Object.assign(hub,{task:"",working:false,plan:null,studyCard:null,action:"",bookmark:""});drawStudy();persist();
   });
   byId("weight-file").onchange=async event=>{
     const file=event.target.files[0];if(!file)return;
     if(file.size!==WEIGHT_BYTES||await file.slice(0,4).text()!=="GGUF"){studyMessage("请选择 Qwen2.5-0.5B-Instruct 的 Q4_0 GGUF 文件。");return;}
-    memoryWeights=file;byId("model-note").textContent="已选择本机模型，可以直接生成。";studyMessage("");
+    memoryWeights=file;byId("model-note").textContent=t("已选择本机模型，可以直接生成。");studyMessage("");
   };
   void refreshModelCacheNote();
 }
@@ -2715,8 +3347,8 @@ function funPool(selection) {
   return TASKS.filter(c=>c.minutes<=selection.time && c.place===selection.place && c.people===selection.people);
 }
 function rackPool() {
-  if(hub.mode==="fun") return eligibleFun(state.selection).map(c=>({id:c.id,no:c.id.slice(1),title:c.title,meta:c.minutes+" 分钟 · "+people[c.people]}));
-  if(hub.mode==="food") return candidates().map(d=>({id:d.id,no:String(hub.menu.indexOf(d)+1),title:d.name,meta:d.source+" · ¥"+d.price}));
+  if(hub.mode==="fun") return eligibleFun(state.selection).map(c=>({id:c.id,no:c.id.slice(1),title:cardCopy(c).title,meta:t("{count} 分钟",{count:c.minutes})+" · "+t(people[c.people])}));
+  if(hub.mode==="food") return candidates().map(d=>({id:d.id,no:String(hub.menu.indexOf(d)+1),title:dishTitle(d),meta:t(d.source)+" · ¥"+d.price}));
   return studyPool();
 }
 const room = document.querySelector(".workspace");
@@ -2743,7 +3375,7 @@ function createTicket(card, position) {
   el.style.setProperty("--stock", stock[position % stock.length]);
   el.innerHTML = '<div class="slip"><div class="slip-top"><b></b><svg viewBox="0 0 16 16"><path d="' + icon +
     '"/></svg></div><i class="card-orb"></i><div class="ticket-title"></div><div class="ticket-tail"></div></div>';
-  el.querySelector(".slip-top b").textContent = category;
+  el.querySelector(".slip-top b").textContent = t(category);
   el.querySelector(".ticket-title").textContent = card.title;
   el.querySelector(".ticket-tail").textContent = card.meta;
   return {card,el};
@@ -2983,11 +3615,11 @@ function setRackState(phase) {
   exhibit.dataset.phase=phase;
   exhibit.dataset.ambient=ambientOn()?"on":"off";
   const spin=phase==="spin", fixed=phase==="landed", none=!rack.items.length;
-  byId("rack-status").textContent=spin?"抽取中…":fixed?(hub.mode==="study"?"当前步骤已就位":"已抽中 · 卡片已居中"):none?(hub.mode==="study"?"等待学习任务":"请调整筛选条件"):"等待抽取";
+  byId("rack-status").textContent=t(spin?"抽取中…":fixed?(hub.mode==="study"?"当前步骤已就位":"已抽中 · 卡片已居中"):none?(hub.mode==="study"?"等待学习任务":"请调整筛选条件"):"等待抽取");
   const button=byId("motion-btn");
   button.disabled=spin||motionPref.matches;
   const playing=ambientOn();
-  const caption=spin?"转盘运行中":motionPref.matches?"已减少动效":playing?"暂停动效":"开启动效";
+  const caption=t(spin?"转盘运行中":motionPref.matches?"已减少动效":playing?"暂停动效":"开启动效");
   button.innerHTML='<svg viewBox="0 0 12 12" aria-hidden="true"><path d="'+(playing?'M2 1h3v10H2zM7 1h3v10H7z':'M3 1l8 5-8 5z')+'"/></svg>';
   button.append(caption);button.setAttribute("aria-label",caption);
   previewButtons.forEach(button=>{button.disabled=!canBrowse();});
@@ -3043,11 +3675,10 @@ function refreshRack() {
     byId("tickets").replaceChildren(...rack.items.map(x=>x.el));
     rack.angle=n===1 ? .62 : count ? turn / count * .35 : 0;
   }
-  byId("rack-label").textContent=modes[hub.mode].name;
-  byId("pool-count").textContent=n+" 张候选";
+  byId("rack-label").textContent=t(modes[hub.mode].name);
+  byId("pool-count").textContent=t(hub.mode==="study"?"{count} 个步骤":"{count} 张候选",{count:n});
   byId("empty-rack").hidden=!!n;
-  byId("empty-rack").textContent=hub.mode==="study"?"输入学习任务，生成你的步骤卡":"没有符合条件的卡片";
-  if(hub.mode==="study")byId("pool-count").textContent=n+" 个步骤";
+  byId("empty-rack").textContent=t(hub.mode==="study"?"输入学习任务，生成你的步骤卡":"没有符合条件的卡片");
   const id=hub.mode==="fun"?state.active:hub.mode==="study"&&hub.working?hub.studyCard:null;
   const chosen=rack.pool.find(c=>c.id===id);
   rack.items.forEach(item=>item.el.classList.remove("picked"));
@@ -3186,7 +3817,7 @@ const privacyReady=(() => {
   function openSettings(){
     const current=byId("cookie-current");
     current.hidden=cookieChoice===null;
-    current.textContent=cookieChoice==="functional"?"当前已允许功能性存储。":"当前仅允许必要存储。";
+    current.textContent=t(cookieChoice==="functional"?"当前已允许功能性存储。":"当前仅允许必要存储。");
     settings.showModal();
   }
   byId("open-cookie-settings").onclick=openSettings;
@@ -3323,9 +3954,9 @@ const privacyReady=(() => {
     const tile=document.createElement("div");
     tile.className="print-tile";
     tile.innerHTML='<span class="base-letter"></span><div class="paper-plate"><span class="negative-letter"></span><div class="illustration"><svg viewBox="0 0 120 164" aria-hidden="true">'+ticket.artwork+'<path d="M12 133h96" stroke="currentColor" stroke-width=".8"/></svg><p class="stamp-name"></p></div></div>';
-    tile.querySelector(".base-letter").textContent=ticket.character;
-    tile.querySelector(".negative-letter").textContent=ticket.character;
-    tile.querySelector(".stamp-name").textContent=ticket.name;
+    tile.querySelector(".base-letter").textContent=t(ticket.character);
+    tile.querySelector(".negative-letter").textContent=t(ticket.character);
+    tile.querySelector(".stamp-name").textContent=t(ticket.name);
     return tile;
   });
   scene.className="launch-scene paper-composition";
@@ -3576,8 +4207,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   }
   function refreshAccountView() {
     const signed=!!account;
-    byId("account-heading").textContent=signed?"我的账户":"登录图一乐";
-    byId("open-account").textContent=signed||!enabled?"账户":"登录";
+    byId("account-heading").textContent=t(signed?"我的账户":"登录图一乐");
+    byId("open-account").textContent=t(signed||!enabled?"账户":"登录");
     byId("account-profile").hidden=!signed;
     byId("account-settings").hidden=!signed;
     byId("account-guest").hidden=signed;
@@ -3589,12 +4220,13 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     byId("account-public").checked=Boolean(account?.ranked);
     byId("account-public").disabled=busy;
     const detail=signed ? "已登录 · 记录可跨设备同步" : "游客模式 · 记录保存在当前浏览器";
-    byId("pocket-location").textContent=detail;
+    byId("pocket-location").textContent=t(detail);
   }
   function showMode(next) {
     view=next;
     const login=next==="login", signup=next==="signup", forgot=next==="forgot", reset=next==="recovery";
-    byId("account-operation").textContent=notes[next];
+    byId("account-language").hidden=reset;
+    byId("account-operation").textContent=t(notes[next]);
     byId("account-operation").hidden=!notes[next];
     const username=byId("account-username"), email=byId("account-email"), pass=byId("account-password");
     username.closest("label").hidden=!(login||signup);
@@ -3610,7 +4242,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     pass.autocomplete=signup||reset?"new-password":"current-password";
     pass.minLength=signup||reset?10:1;
     pass.value="";
-    byId("account-submit").textContent=login?"登录":signup?"发送验证邮件":forgot?"发送找回邮件":"保存新密码";
+    byId("account-submit").textContent=t(login?"登录":signup?"发送验证邮件":forgot?"发送找回邮件":"保存新密码");
     byId("account-to-login").hidden=login||reset;
     byId("account-to-signup").hidden=!login;
     byId("account-to-forgot").hidden=!login;
@@ -3636,7 +4268,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     refreshAccountView();
     renderAwards();
     byId("weekly-rank").replaceChildren();
-    byId("weekly-status").textContent="登录后可查看本周榜单。";
+    byId("weekly-status").textContent=t("登录后可查看本周榜单。");
   }
   async function getCloudState(uid) {
     const {data,error}=await client.from("capsule_state").select("revision,snapshot").eq("user_id",uid).maybeSingle();
@@ -3663,7 +4295,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     queueSync();
   }
   function showSync(text) {
-    byId("account-sync-info").textContent=text;
+    byId("account-sync-info").textContent=t(text);
   }
   function queueSync() {
     clearTimeout(debounce);
@@ -3778,10 +4410,10 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     const pass=byId("account-password");
     const password=pass.value;
     if((operation==="login"||operation==="signup")&&!/^[a-z0-9_]{3,24}$/.test(username)){
-      message.textContent="用户名需为 3–24 位英文字母、数字或下划线。";return;
+      message.textContent=t("用户名需为 3–24 位英文字母、数字或下划线。");return;
     }
     busy=true;byId("account-submit").disabled=true;pass.value="";
-    message.textContent="正在处理…";
+    message.textContent=t("正在处理…");
     try {
       await cloud();
       if(operation==="login"){
@@ -3792,21 +4424,21 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         const {error}=await client.auth.signUp({email,password,options:{data:{username},emailRedirectTo:redirect}});
         if(error)throw error;
         showMode("login");
-        message.textContent="请查看邮箱并完成验证，然后用用户名登录。";
+        message.textContent=t("请查看邮箱并完成验证，然后用用户名登录。");
       }else if(operation==="forgot"){
         const {error}=await client.auth.resetPasswordForEmail(email,{redirectTo:redirect});
         if(error)throw error;
         showMode("login");
-        message.textContent="如果该邮箱已注册，请查看找回邮件。";
+        message.textContent=t("如果该邮箱已注册，请查看找回邮件。");
       }else{
         const {error}=await client.auth.updateUser({password});
         if(error)throw error;
         await client.auth.signOut();
         recovery=false;showMode("login");
-        message.textContent="新密码已保存，请重新登录。";
+        message.textContent=t("新密码已保存，请重新登录。");
       }
     }catch(error){
-      message.textContent=operation==="login"&&error instanceof Error&&!error.code ? error.message : friendly(operation);
+      message.textContent=t(operation==="login"&&error instanceof Error&&!error.code ? error.message : friendly(operation));
     }finally{busy=false;byId("account-submit").disabled=false;}
   };
 
@@ -3826,7 +4458,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     copyLocal.hub.history=mergeEntryList(copyLocal.hub.history,guest.hub.history,row=>JSON.stringify([row.kind,row.title,row.when,row.detail]));
     copyLocal.hub.likes=[...new Set([...copyLocal.hub.likes,...guest.hub.likes])];
     replaceProfile(copyLocal);persist();
-    message.textContent="游客记录已合入账户。历史记录只用于个人成就。";
+    message.textContent=t("游客记录已合入账户。历史记录只用于个人成就。");
   };
   byId("account-sign-out").onclick=async()=>{
     if(busy||!account)return;
@@ -3835,8 +4467,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       await syncAccount();
       const {error}=await client.auth.signOut({scope:"local"});
       if(error)throw error;
-      leaveProfile();showMode("login");message.textContent="已退出账户。";
-    }catch{message.textContent="暂时无法退出账户，请重试。";}
+      leaveProfile();showMode("login");message.textContent=t("已退出账户。");
+    }catch{message.textContent=t("暂时无法退出账户，请重试。");}
     finally{busy=false;}
   };
   byId("account-public").onchange=async event=>{
@@ -3848,28 +4480,28 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       const {error}=await client.rpc("capsule_rank_visibility",{p_user:ctx.uid,p_visible:visible});
       if(error)throw error;
       if(account===ctx)ctx.ranked=visible;
-      message.textContent=visible?"已加入本周榜单。":"已退出榜单。";
-    }catch{event.target.checked=ctx.ranked;message.textContent="榜单设置暂时无法保存。";}
+      message.textContent=t(visible?"已加入本周榜单。":"已退出榜单。");
+    }catch{event.target.checked=ctx.ranked;message.textContent=t("榜单设置暂时无法保存。");}
     finally{event.target.disabled=false;}
   };
   window.capsuleLoadRanking=async()=>{
     const ctx=account,list=byId("weekly-rank"),status=byId("weekly-status");
     list.replaceChildren();
-    if(!ctx){status.textContent=enabled?"登录后可查看本周榜单。":"连接云端后可查看本周榜单。";return;}
-    status.textContent="正在加载榜单…";
+    if(!ctx){status.textContent=t(enabled?"登录后可查看本周榜单。":"连接云端后可查看本周榜单。");return;}
+    status.textContent=t("正在加载榜单…");
     try {
       await syncAccount();
       const {data,error}=await client.rpc("capsule_leaderboard");
       if(error)throw error;
       if(account!==ctx)return;
-      status.textContent=data.length?"每周一 00:00（北京时间）重新计分。":"本周暂无上榜记录。";
+      status.textContent=t(data.length?"每周一 00:00（北京时间）重新计分。":"本周暂无上榜记录。");
       for(const entry of data){
         const row=document.createElement("li"),player=document.createElement("strong"),score=document.createElement("small");
         player.textContent="#"+entry.rank_no+" "+entry.player;
-        score.textContent="本周 "+entry.weekly+" 张 · 累计 "+entry.total+" 张";
+        score.textContent=t("本周 {weekly} 张 · 累计 {total} 张",{weekly:entry.weekly,total:entry.total});
         row.append(player,score);list.append(row);
       }
-    }catch{status.textContent="榜单暂时无法加载。";}
+    }catch{status.textContent=t("榜单暂时无法加载。");}
   };
   window.addEventListener("online",()=>void syncAccount(true));
   window.addEventListener("focus",()=>void syncAccount(true));
@@ -3883,7 +4515,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       const {data}=await client.auth.getSession();
       if(recovery){showMode("recovery");showDialog();return;}
       if(data.session){await openProfile(data.session);return;}
-    }catch{message.textContent="云端暂时无法连接，可先用游客模式。";}
+    }catch{message.textContent=t("云端暂时无法连接，可先用游客模式。");}
     try {
       const key="tuyile-account-prompt";
       if(sessionStorage.getItem(key))return;
