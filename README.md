@@ -1,7 +1,6 @@
 # 图一乐 · Just for Giggle
 
-[中文](#中文) · [English](#english) · [在线试玩 / Play online](https://sheinhsin.github.io/Just-for-Giggle-CampusVersion/) · [英文版 / Play in English](https://sheinhsin.github.io/Just-for-Giggle-CampusVersion/?lang=en)
-
+[中文](#中文) · [English](#english) · [在线试玩 / Play online](https://sheinhsin.github.io/Just-for-Giggle-CampusVersion/) 
 ## 中文
 
 ### 项目简介
